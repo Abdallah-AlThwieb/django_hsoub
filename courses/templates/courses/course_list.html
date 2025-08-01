@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">{% trans "الدورات المتاحة" %}</h2>
+
+    <div class="row">
+        {% for course in courses %}
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm h-100">
+                
+                {% if course.image %}
+                <img src="{{ course.image.url }}" class="card-img-top" alt="{{ course.title }}" style="height: 200px; object-fit: cover;">
+                {% endif %}
+
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ course.title }}</h5>
+
+                    <p class="card-text text-muted">
+                        {{ course.description|truncatewords:20 }}
+                    </p>
+
+                    <p class="card-text text-muted mb-1">
+                        {% trans "السعر" %}: {{ course.price }}$
+                    </p>
+
+                    <p class="card-text text-muted">
+                        {% trans "عدد الدروس" %}: {{ course.lessons.count }}
+                    </p>
+
+                    <a href="{% url 'courses:course_detail' course.id %}" class="btn btn-primary mt-auto">
+                        {% trans "عرض التفاصيل" %}
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>{% trans "لا توجد دورات حالياً." %}</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{{ lesson.title }} | {% trans "الدرس" %}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  {% if user.is_authenticated %}
+    {% if user.is_superuser or user in lesson.course.students.all %}
+      <h2 class="mb-3">{{ lesson.title }}</h2>
+      
+      <div class="mb-4">
+        {% if lesson.video %}
+        <video width="100%" height="400" controls>
+          <source src="{{ lesson.video.url }}" type="video/mp4">
+          {% trans "متصفحك لا يدعم تشغيل الفيديو." %}
+        </video>
+        {% else %}
+        <p class="text-muted">{% trans "لا يوجد فيديو لهذا الدرس." %}</p>
+        {% endif %}
+      </div>
+
+      <div class="mb-4">
+        <h5>{% trans "وصف الدرس" %}:</h5>
+        <p>{{ lesson.description|linebreaks }}</p>
+      </div>
+
+      <div class="mb-5">
+        <h5>{% trans "التعليقات" %}:</h5>
+        {% if comments %}
+          <ul class="list-group">
+            {% for comment in comments %}
+              <li class="list-group-item">
+                <strong>{{ comment.user.username }}</strong>
+                <span class="text-muted small ms-2">{{ comment.created_at|date:"Y/m/d H:i" }}</span>
+                <p class="mb-0 mt-2">{{ comment.content }}</p>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="text-muted">{% trans "لا توجد تعليقات بعد." %}</p>
+        {% endif %}
+      </div>
+
+      <div class="mt-4">
+        <h5>{% trans "أضف تعليقًا" %}:</h5>
+        <form method="post" novalidate>
+          {% csrf_token %}
+          {% for field in comment_form %}
+            <div class="mb-3">
+              <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+              {{ field }}
+              {% if field.errors %}
+                <div class="text-danger small">
+                  {{ field.errors|striptags }}
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+          <button type="submit" class="btn btn-primary">{% trans "نشر" %}</button>
+        </form>
+      </div>
+
+    {% else %}
+      <div class="alert alert-warning text-center">
+        {% trans "يجب أن تشترك في الدورة لمشاهدة هذا الدرس." %}
+      </div>
+    {% endif %}
+  {% else %}
+    <div class="alert alert-warning text-center">
+      {% trans "يرجى" %} <a href="{% url 'login' %}">{% trans "تسجيل الدخول" %}</a> {% trans "لمتابعة الدرس." %}
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

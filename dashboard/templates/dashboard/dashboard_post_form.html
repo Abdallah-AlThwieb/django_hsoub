@@ -1,0 +1,29 @@
+{% extends 'dashboard/base.html' %}
+{% load i18n %}
+
+{% block title %}
+  {% if form.instance.pk %}
+    {% trans "تعديل مقالة" %}
+  {% else %}
+    {% trans "إضافة مقالة" %}
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <h1 class="mb-4">
+    {% if form.instance.pk %}
+      {% trans "تعديل مقالة" %}
+    {% else %}
+      {% trans "إضافة مقالة" %}
+    {% endif %}
+  </h1>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">💾 {% trans "حفظ" %}</button>
+    <a href="{% url 'dashboard:post_list' %}" class="btn btn-secondary">{% trans "رجوع" %}</a>
+  </form>
+</div>
+{% endblock %}

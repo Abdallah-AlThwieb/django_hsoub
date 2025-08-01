@@ -1,0 +1,11 @@
+{% extends "dashboard/base.html" %}
+{% load i18n %}
+{% block content %}
+<h2>{% trans "تعديل المقالة" %}</h2>
+
+<form method="post">{% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-primary">{% trans "حفظ التعديلات" %}</button>
+  <a href="{% url 'dashboard:post_list' %}" class="btn btn-secondary">{% trans "إلغاء" %}</a>
+</form>
+{% endblock %}

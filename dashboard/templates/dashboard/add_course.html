@@ -1,0 +1,65 @@
+{% extends "dashboard/base.html" %}
+{% load i18n %}
+{% block title %}{% trans "إضافة دورة جديدة" %}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>{% trans "إضافة دورة جديدة" %}</h2>
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                {% trans "بيانات الدورة" %}
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    {{ form.title.label_tag }}
+                    {{ form.title }}
+                </div>
+                <div class="form-group">
+                    {{ form.description.label_tag }}
+                    {{ form.description }}
+                </div>
+                <div class="form-group">
+                    {{ form.price.label_tag }}
+                    {{ form.price }}
+                </div>
+                <div class="form-group form-check">
+                    {{ form.is_published }}
+                    {{ form.is_published.label_tag }}
+                </div>
+                <div class="form-group">
+                    {{ form.image.label_tag }}
+                    {{ form.image }}
+                    {% if form.image.help_text %}
+                        <small class="form-text text-muted">{{ form.image.help_text }}</small>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header bg-info text-white">
+                {% trans "الدروس" %}
+            </div>
+            <div class="card-body">
+                {{ formset.management_form }}
+                {% for form in formset.forms %}
+                    <div class="border rounded p-3 mb-3 bg-light">
+                        <h6 class="mb-3">{% trans "درس" %} {{ forloop.counter }}</h6>
+                        {{ form.as_p }}
+                        {% if form.instance.pk %}
+                            <input type="hidden" name="{{ form.prefix }}-id" value="{{ form.instance.pk }}">
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-success">{% trans "نشر الدورة" %}</button>
+        <a href="{% url 'dashboard:course_list' %}" class="btn btn-secondary">{% trans "عودة" %}</a>
+    </form>
+</div>
+{% endblock %}

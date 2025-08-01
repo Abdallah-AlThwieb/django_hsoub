@@ -1,0 +1,12 @@
+{% extends "dashboard/base.html" %}
+{% load i18n %}
+{% block content %}
+<h2>{% trans "حذف المقالة" %}</h2>
+
+<p>{% blocktrans %}هل أنت متأكد أنك تريد حذف المقالة "{{ post.title }}"؟{% endblocktrans %}</p>
+
+<form method="post">{% csrf_token %}
+  <button type="submit" class="btn btn-danger">{% trans "نعم، احذف" %}</button>
+  <a href="{% url 'dashboard:post_list' %}" class="btn btn-secondary">{% trans "إلغاء" %}</a>
+</form>
+{% endblock %}

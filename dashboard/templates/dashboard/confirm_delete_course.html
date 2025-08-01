@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "تأكيد حذف الدورة" %}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="alert alert-danger text-center">
+    <h4>{% trans "هل أنت متأكد أنك تريد حذف الدورة التالية؟" %}</h4>
+    <p><strong>{{ course.title }}</strong></p>
+    
+    <form method="post" class="d-inline">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">{% trans "نعم، احذف" %}</button>
+    </form>
+    
+    <a href="{% url 'dashboard:course_list' %}" class="btn btn-secondary">{% trans "إلغاء" %}</a>
+  </div>
+</div>
+{% endblock %}

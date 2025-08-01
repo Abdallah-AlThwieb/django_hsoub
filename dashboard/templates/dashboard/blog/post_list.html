@@ -1,0 +1,33 @@
+{% extends "dashboard/base.html" %}
+{% load i18n %}
+{% block content %}
+<h2>{% trans "جميع المقالات" %}</h2>
+
+<a class="btn btn-primary mb-3" href="{% url 'dashboard:add_post' %}">➕ {% trans "إضافة مقالة" %}</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>{% trans "العنوان" %}</th>
+            <th>{% trans "تاريخ النشر" %}</th>
+            <th>{% trans "إجراءات" %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for post in posts %}
+        <tr>
+            <td>{{ post.title }}</td>
+            <td>{{ post.created_at|date:"Y-m-d" }}</td>
+            <td>
+                <a class="btn btn-sm btn-warning" href="{% url 'dashboard:edit_post' post.id %}">{% trans "تعديل" %}</a>
+                <a class="btn btn-sm btn-danger" href="{% url 'dashboard:delete_post' post.id %}">{% trans "حذف" %}</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">{% trans "لا توجد مقالات حاليًا." %}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

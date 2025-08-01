@@ -1,0 +1,665 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-01 06:49+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#: .\Hsoub_project\settings.py:115
+msgid "Arabic"
+msgstr "عربي"
+
+#: .\Hsoub_project\settings.py:116
+msgid "English"
+msgstr "إنجليزي"
+
+#: .\accounts\views.py:15
+msgid "تم إنشاء الحساب بنجاح، يمكنك تسجيل الدخول الآن."
+msgstr ""
+
+#: .\blog\forms.py:10
+msgid "عنوان المقالة"
+msgstr ""
+
+#: .\blog\forms.py:11
+msgid "المحتوى"
+msgstr ""
+
+#: .\blog\forms.py:12 .\dashboard\templates\dashboard\blog\add_post.html:8
+msgid "نشر المقالة"
+msgstr ""
+
+#: .\blog\models.py:8
+msgid "عنوان المقال"
+msgstr ""
+
+#: .\blog\models.py:9
+msgid "الرابط"
+msgstr ""
+
+#: .\blog\models.py:10
+msgid "الكاتب"
+msgstr ""
+
+#: .\blog\models.py:11
+msgid "محتوى المقال"
+msgstr ""
+
+#: .\blog\models.py:12 .\courses\admin.py:70 .\courses\models.py:43
+#: .\dashboard\templates\dashboard\blog\post_list.html:12
+msgid "تاريخ النشر"
+msgstr ""
+
+#: .\blog\models.py:13
+msgid "آخر تحديث"
+msgstr ""
+
+#: .\blog\models.py:14
+msgid "منشور"
+msgstr ""
+
+#: .\blog\models.py:17
+msgid "مقال"
+msgstr ""
+
+#: .\blog\models.py:18
+msgid "مقالات"
+msgstr ""
+
+#: .\blog\templates\blog\blog_detail.html:11
+#: .\blog\templates\blog\blog_list.html:17
+msgid "نشر بتاريخ"
+msgstr ""
+
+#: .\blog\templates\blog\blog_detail.html:19
+msgid "العودة إلى المقالات"
+msgstr ""
+
+#: .\blog\templates\blog\blog_list.html:4
+#: .\blog\templates\blog\blog_list.html:8
+#: .\dashboard\templates\dashboard\base.html:26
+msgid "المقالات"
+msgstr ""
+
+#: .\blog\templates\blog\blog_list.html:21
+msgid "قراءة المزيد"
+msgstr ""
+
+#: .\blog\templates\blog\blog_list.html:26
+msgid "لا توجد مقالات حالياً."
+msgstr ""
+
+#: .\courses\admin.py:18 .\courses\models.py:7
+msgid "عنوان الدورة"
+msgstr ""
+
+#: .\courses\admin.py:22 .\courses\models.py:10
+#: .\courses\templates\courses\course_detail.html:21
+#: .\courses\templates\courses\course_list.html:26
+#: .\dashboard\templates\dashboard\dashboard_post_list.html:15
+msgid "السعر"
+msgstr ""
+
+#: .\courses\admin.py:26 .\courses\admin.py:50 .\courses\models.py:11
+#: .\courses\models.py:28
+msgid "تاريخ الإنشاء"
+msgstr ""
+
+#: .\courses\admin.py:30
+#: .\dashboard\templates\dashboard\dashboard_post_list.html:28
+msgid "منشورة"
+msgstr ""
+
+#: .\courses\admin.py:42 .\courses\models.py:26
+msgid "عنوان الدرس"
+msgstr ""
+
+#: .\courses\admin.py:46 .\courses\models.py:25
+msgid "الدورة"
+msgstr ""
+
+#: .\courses\admin.py:62 .\courses\models.py:40
+msgid "المستخدم"
+msgstr ""
+
+#: .\courses\admin.py:66 .\courses\models.py:41
+#: .\courses\templates\courses\lesson_detail.html:5
+msgid "الدرس"
+msgstr ""
+
+#: .\courses\forms.py:9
+msgid "أضف تعليقك"
+msgstr ""
+
+#: .\courses\models.py:8
+msgid "وصف الدورة"
+msgstr ""
+
+#: .\courses\models.py:9 .\dashboard\templates\dashboard\add_course.html:61
+msgid "نشر الدورة"
+msgstr ""
+
+#: .\courses\models.py:12
+msgid "الطلاب المشتركين"
+msgstr ""
+
+#: .\courses\models.py:13 .\courses\templates\courses\home.html:17
+msgid "صورة الدورة"
+msgstr ""
+
+#: .\courses\models.py:16
+msgid "دورة"
+msgstr ""
+
+#: .\courses\models.py:17 .\dashboard\templates\dashboard\base.html:23
+#: .\templates\base.html:27
+msgid "الدورات"
+msgstr ""
+
+#: .\courses\models.py:27
+msgid "فيديو"
+msgstr ""
+
+#: .\courses\models.py:31 .\dashboard\templates\dashboard\add_course.html:51
+#: .\dashboard\templates\dashboard\edit_course.html:75
+msgid "درس"
+msgstr ""
+
+#: .\courses\models.py:32 .\courses\templates\courses\course_detail.html:24
+#: .\dashboard\templates\dashboard\add_course.html:45
+msgid "الدروس"
+msgstr ""
+
+#: .\courses\models.py:42
+msgid "التعليق"
+msgstr ""
+
+#: .\courses\models.py:46
+msgid "تعليق"
+msgstr ""
+
+#: .\courses\models.py:47 .\courses\templates\courses\lesson_detail.html:30
+msgid "التعليقات"
+msgstr ""
+
+#: .\courses\templates\courses\course_detail.html:18
+msgid "الوصف"
+msgstr ""
+
+#: .\courses\templates\courses\course_detail.html:32
+msgid "عرض"
+msgstr ""
+
+#: .\courses\templates\courses\course_detail.html:35
+msgid "اشترك لمشاهدة الدورة"
+msgstr ""
+
+#: .\courses\templates\courses\course_detail.html:38
+msgid "سجّل الدخول للاطلاع"
+msgstr ""
+
+#: .\courses\templates\courses\course_detail.html:44
+msgid "لا توجد دروس مضافة لهذه الدورة بعد."
+msgstr ""
+
+#: .\courses\templates\courses\course_detail.html:52
+msgid "أنت مسجل في هذه الدورة"
+msgstr ""
+
+#: .\courses\templates\courses\course_detail.html:56
+msgid "اشترك الآن"
+msgstr ""
+
+#: .\courses\templates\courses\course_detail.html:61
+msgid "سجّل الدخول للاشتراك"
+msgstr ""
+
+#: .\courses\templates\courses\course_list.html:7
+msgid "الدورات المتاحة"
+msgstr ""
+
+#: .\courses\templates\courses\course_list.html:30
+msgid "عدد الدروس"
+msgstr ""
+
+#: .\courses\templates\courses\course_list.html:34
+msgid "عرض التفاصيل"
+msgstr ""
+
+#: .\courses\templates\courses\course_list.html:40
+msgid "لا توجد دورات حالياً."
+msgstr ""
+
+#: .\courses\templates\courses\home.html:7
+msgid "مرحباً بك في منصة الدورات التعليمية"
+msgstr ""
+
+#: .\courses\templates\courses\home.html:8
+msgid "منصة لمتابعة أداء الطلاب ومشاركة الدورات مع المشرفين والطلاب."
+msgstr ""
+
+#: .\courses\templates\courses\home.html:22
+#: .\courses\templates\courses\my_courses.html:19
+msgid "عرض الدورة"
+msgstr ""
+
+#: .\courses\templates\courses\home.html:28
+msgid "لا توجد دورات متاحة حالياً."
+msgstr ""
+
+#: .\courses\templates\courses\home.html:37
+msgid "عدد الطلاب"
+msgstr ""
+
+#: .\courses\templates\courses\home.html:45
+msgid "عدد المشرفين"
+msgstr ""
+
+#: .\courses\templates\courses\lesson_detail.html:17
+msgid "متصفحك لا يدعم تشغيل الفيديو."
+msgstr ""
+
+#: .\courses\templates\courses\lesson_detail.html:20
+msgid "لا يوجد فيديو لهذا الدرس."
+msgstr ""
+
+#: .\courses\templates\courses\lesson_detail.html:25
+msgid "وصف الدرس"
+msgstr ""
+
+#: .\courses\templates\courses\lesson_detail.html:42
+msgid "لا توجد تعليقات بعد."
+msgstr ""
+
+#: .\courses\templates\courses\lesson_detail.html:47
+msgid "أضف تعليقًا"
+msgstr ""
+
+#: .\courses\templates\courses\lesson_detail.html:61
+msgid "نشر"
+msgstr ""
+
+#: .\courses\templates\courses\lesson_detail.html:67
+msgid "يجب أن تشترك في الدورة لمشاهدة هذا الدرس."
+msgstr ""
+
+#: .\courses\templates\courses\lesson_detail.html:72
+msgid "يرجى"
+msgstr ""
+
+#: .\courses\templates\courses\lesson_detail.html:72 .\templates\base.html:51
+#: .\templates\registration\login.html:4 .\templates\registration\login.html:8
+#: .\templates\registration\password_reset_complete.html:14
+msgid "تسجيل الدخول"
+msgstr ""
+
+#: .\courses\templates\courses\lesson_detail.html:72
+msgid "لمتابعة الدرس."
+msgstr ""
+
+#: .\courses\templates\courses\my_courses.html:4 .\templates\base.html:32
+msgid "دوراتي"
+msgstr ""
+
+#: .\courses\templates\courses\my_courses.html:8
+msgid "الدورات التي اشتركت بها"
+msgstr ""
+
+#: .\courses\templates\courses\my_courses.html:27
+msgid "لم تقم بالاشتراك في أي دورة بعد."
+msgstr ""
+
+#: .\courses\templates\courses\payment_success.html:4
+msgid "تم الاشتراك بنجاح"
+msgstr ""
+
+#: .\courses\templates\courses\payment_success.html:8
+msgid "تم الاشتراك بنجاح!"
+msgstr ""
+
+#: .\courses\templates\courses\payment_success.html:10
+msgid "شكرًا لاشتراكك في الدورة"
+msgstr ""
+
+#: .\courses\templates\courses\payment_success.html:13
+msgid "العودة إلى الدورة"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\add_course.html:3
+#: .\dashboard\templates\dashboard\add_course.html:7
+#: .\dashboard\templates\dashboard\dashboard_post_list.html:9
+msgid "إضافة دورة جديدة"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\add_course.html:14
+#: .\dashboard\templates\dashboard\edit_course.html:16
+msgid "بيانات الدورة"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\add_course.html:62
+msgid "عودة"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\base.html:7
+#: .\dashboard\templates\dashboard\base.html:16
+#: .\dashboard\templates\dashboard\dashboard_home.html:4
+#: .\templates\base.html:37
+msgid "لوحة التحكم"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\base.html:29
+msgid "الصفحة الرئيسية"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\base.html:35 .\templates\base.html:45
+msgid "تسجيل الخروج"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\blog\add_post.html:4
+msgid "إضافة مقالة جديدة"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\blog\add_post.html:9
+#: .\dashboard\templates\dashboard\blog\delete_post.html:10
+#: .\dashboard\templates\dashboard\blog\edit_post.html:9
+#: .\dashboard\templates\dashboard\confirm_delete_course.html:17
+#: .\dashboard\templates\dashboard\dashboard_post_confirm_delete.html:11
+#: .\dashboard\templates\dashboard\edit_course.html:91
+msgid "إلغاء"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\blog\delete_post.html:4
+#: .\dashboard\templates\dashboard\dashboard_post_confirm_delete.html:3
+msgid "حذف المقالة"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\blog\delete_post.html:6
+#, python-format
+msgid "هل أنت متأكد أنك تريد حذف المقالة \"%(post.title)s\"؟"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\blog\delete_post.html:9
+#: .\dashboard\templates\dashboard\confirm_delete_course.html:14
+#: .\dashboard\templates\dashboard\dashboard_post_confirm_delete.html:10
+msgid "نعم، احذف"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\blog\edit_post.html:4
+msgid "تعديل المقالة"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\blog\edit_post.html:8
+#: .\dashboard\templates\dashboard\edit_course.html:90
+msgid "حفظ التعديلات"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\blog\post_list.html:4
+msgid "جميع المقالات"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\blog\post_list.html:6
+#: .\dashboard\templates\dashboard\dashboard_post_form.html:8
+#: .\dashboard\templates\dashboard\dashboard_post_form.html:18
+msgid "إضافة مقالة"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\blog\post_list.html:11
+#: .\dashboard\templates\dashboard\dashboard_post_list.html:14
+msgid "العنوان"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\blog\post_list.html:13
+#: .\dashboard\templates\dashboard\dashboard_post_list.html:18
+msgid "إجراءات"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\blog\post_list.html:22
+#: .\dashboard\templates\dashboard\dashboard_post_list.html:35
+msgid "تعديل"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\blog\post_list.html:23
+#: .\dashboard\templates\dashboard\dashboard_post_list.html:38
+msgid "حذف"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\blog\post_list.html:28
+msgid "لا توجد مقالات حاليًا."
+msgstr ""
+
+#: .\dashboard\templates\dashboard\confirm_delete_course.html:4
+msgid "تأكيد حذف الدورة"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\confirm_delete_course.html:9
+msgid "هل أنت متأكد أنك تريد حذف الدورة التالية؟"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\dashboard_home.html:8
+msgid "مرحباً بك في لوحة التحكم"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\dashboard_home.html:13
+msgid "إدارة الدورات"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\dashboard_home.html:18
+msgid "إدارة المقالات"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\dashboard_post_confirm_delete.html:6
+#, python-format
+msgid "هل أنت متأكد من حذف المقالة \"%(post_title)s\"؟"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\dashboard_post_form.html:6
+#: .\dashboard\templates\dashboard\dashboard_post_form.html:16
+msgid "تعديل مقالة"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\dashboard_post_form.html:25
+msgid "حفظ"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\dashboard_post_form.html:26
+msgid "رجوع"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\dashboard_post_list.html:4
+msgid "لوحة تحكم المدير"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\dashboard_post_list.html:8
+msgid "جميع الدورات"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\dashboard_post_list.html:16
+msgid "الحالة"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\dashboard_post_list.html:17
+msgid "تاريخ الإضافة"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\dashboard_post_list.html:30
+msgid "غير منشورة"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\dashboard_post_list.html:37
+msgid "هل أنت متأكد من حذف هذه الدورة؟"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\edit_course.html:4
+#: .\dashboard\templates\dashboard\edit_course.html:8
+msgid "تعديل الدورة"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\edit_course.html:59
+msgid "الصورة الحالية"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\edit_course.html:69
+msgid "تعديل الدروس"
+msgstr ""
+
+#: .\dashboard\templates\dashboard\edit_course.html:82
+msgid "حذف هذا الدرس"
+msgstr ""
+
+#: .\templates\base.html:8
+msgid "أكاديمية حسوب"
+msgstr ""
+
+#: .\templates\base.html:21
+msgid "أكاديمية"
+msgstr ""
+
+#: .\templates\base.html:28
+msgid "المدونة"
+msgstr ""
+
+#: .\templates\base.html:84
+msgid "إغلاق"
+msgstr ""
+
+#: .\templates\registration\login.html:28
+msgid "البريد الإلكتروني أو اسم المستخدم"
+msgstr ""
+
+#: .\templates\registration\login.html:32
+#: .\templates\registration\signup.html:32
+msgid "كلمة المرور"
+msgstr ""
+
+#: .\templates\registration\login.html:35
+msgid "دخول"
+msgstr ""
+
+#: .\templates\registration\login.html:39
+msgid "هل نسيت كلمة المرور؟"
+msgstr ""
+
+#: .\templates\registration\login.html:42
+msgid "لا تملك حساباً؟"
+msgstr ""
+
+#: .\templates\registration\login.html:42
+msgid "سجل الآن"
+msgstr ""
+
+#: .\templates\registration\password_reset_complete.html:4
+#: .\templates\registration\password_reset_complete.html:12
+msgid "تم تغيير كلمة المرور"
+msgstr ""
+
+#: .\templates\registration\password_reset_complete.html:13
+msgid ""
+"تم تحديث كلمة المرور بنجاح. يمكنك الآن تسجيل الدخول باستخدام كلمة المرور "
+"الجديدة."
+msgstr ""
+
+#: .\templates\registration\password_reset_confirm.html:4
+#: .\templates\registration\password_reset_confirm.html:12
+msgid "تعيين كلمة مرور جديدة"
+msgstr ""
+
+#: .\templates\registration\password_reset_confirm.html:17
+msgid "كلمة المرور الجديدة"
+msgstr ""
+
+#: .\templates\registration\password_reset_confirm.html:21
+msgid "تأكيد كلمة المرور الجديدة"
+msgstr ""
+
+#: .\templates\registration\password_reset_confirm.html:24
+msgid "تحديث كلمة المرور"
+msgstr ""
+
+#: .\templates\registration\password_reset_done.html:4
+msgid "تم إرسال الرابط"
+msgstr ""
+
+#: .\templates\registration\password_reset_done.html:12
+msgid "تم الإرسال"
+msgstr ""
+
+#: .\templates\registration\password_reset_done.html:14
+msgid ""
+"إذا كان البريد الإلكتروني الذي أدخلته صحيحًا، فستصلك رسالة تحتوي على رابط "
+"لإعادة تعيين كلمة المرور."
+msgstr ""
+
+#: .\templates\registration\password_reset_done.html:17
+msgid "العودة لتسجيل الدخول"
+msgstr ""
+
+#: .\templates\registration\password_reset_form.html:5
+#: .\templates\registration\password_reset_form.html:11
+msgid "إعادة تعيين كلمة المرور"
+msgstr ""
+
+#: .\templates\registration\password_reset_form.html:14
+msgid "أدخل بريدك الإلكتروني وسنرسل لك رابطًا لإعادة تعيين كلمة المرور."
+msgstr ""
+
+#: .\templates\registration\password_reset_form.html:38
+msgid "إرسال رابط إعادة التعيين"
+msgstr ""
+
+#: .\templates\registration\signup.html:5
+#: .\templates\registration\signup.html:11
+msgid "تسجيل حساب جديد"
+msgstr ""
+
+#: .\templates\registration\signup.html:28
+msgid "البريد الإلكتروني"
+msgstr ""
+
+#: .\templates\registration\signup.html:30
+msgid "اسم المستخدم"
+msgstr ""
+
+#: .\templates\registration\signup.html:34
+msgid "تأكيد كلمة المرور"
+msgstr ""
+
+#: .\templates\registration\signup.html:49
+msgid "تسجيل"
+msgstr ""
+
+#: .\templates\registration\signup.html:53
+msgid "هل لديك حساب بالفعل؟"
+msgstr ""
+
+#: .\templates\registration\signup.html:53
+msgid "سجل الدخول"
+msgstr ""
+
+#~ msgid "admin/"
+#~ msgstr "المدير/"
+
+#~ msgid "courses/"
+#~ msgstr "الدورات/"
+
+#~ msgid "blog/"
+#~ msgstr "المدونة/"
+
+#~ msgid "dashboard/"
+#~ msgstr "لوحة التحكم/"
+
+#~ msgid "accounts/"
+#~ msgstr "الحسابات/"

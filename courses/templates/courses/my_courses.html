@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "دوراتي" %}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">{% trans "الدورات التي اشتركت بها" %}</h2>
+    <hr>
+    {% if courses %}
+        <div class="row">
+            {% for course in courses %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ course.title }}</h5>
+                        <p class="card-text text-muted">{{ course.description|truncatewords:20 }}</p>
+                        <a href="{% url 'courses:course_detail' course.id %}" class="btn btn-primary mt-auto">
+                            {% trans "عرض الدورة" %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-muted">{% trans "لم تقم بالاشتراك في أي دورة بعد." %}</p>
+    {% endif %}
+</div>
+{% endblock %}

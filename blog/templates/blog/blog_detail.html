@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <article class="card shadow-sm p-4">
+        <h1 class="mb-3">{{ post.title }}</h1>
+        <p class="text-muted small mb-4">
+            {% trans "نشر بتاريخ" %} {{ post.created_at|date:"Y/m/d" }}
+        </p>
+        <div class="post-content">
+            {{ post.content|linebreaks }}
+        </div>
+    </article>
+    <div class="mt-4">
+        <a href="{% url 'blog:blog_list' %}" class="btn btn-secondary btn-sm">
+            {% trans "العودة إلى المقالات" %}
+        </a>
+    </div>
+</div>
+{% endblock %}
