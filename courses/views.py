@@ -1,3 +1,4 @@
+import os
 import stripe
 from django.conf import settings
 from django.http import HttpResponse
@@ -10,8 +11,10 @@ from django.contrib.auth import get_user_model
 from django.contrib import messages
 from .models import Course, Lesson, Comment
 from .forms import CommentForm
+from dotenv import load_dotenv
+load_dotenv()
 
-stripe.api_key = settings.STRIPE_SECRET_KEY
+stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 
 def home_page(request):
     User = get_user_model()
