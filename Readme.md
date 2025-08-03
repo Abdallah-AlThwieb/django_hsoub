@@ -8,8 +8,8 @@
 ## 🛠️ التقنيات المستخدمة
 
 - Python 3.11.9
-- Django 5.2
-- SQLite (يمكن استبداله بـ PostgreSQL للنشر)
+- Django 5.2.4
+- SQLite 
 - Bootstrap 5
 - Stripe API (للدفع)
 - Django Authentication System
