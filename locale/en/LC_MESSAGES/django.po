@@ -450,7 +450,7 @@ msgstr "Are you sure you want to delete this course?"
 
 #: .\dashboard\templates\dashboard\dashboard_home.html:8
 msgid "مرحباً بك في لوحة التحكم"
-msgstr "Welcome you to the dashboard"
+msgstr "Welcome to the dashboard"
 
 #: .\dashboard\templates\dashboard\dashboard_home.html:13
 msgid "إدارة الدورات"
