@@ -19,7 +19,7 @@ stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 def home_page(request):
     User = get_user_model()
     student_count = User.objects.annotate(course_count=Count('courses')).filter(course_count__gt=0).count()
-    courses = Course.objects.all()
+    courses = Course.objects.filter(status='Posted')
 
     return render(request, 'courses/home.html', {
         'student_count': student_count,
@@ -27,7 +27,7 @@ def home_page(request):
     })
 
 def course_list(request):
-    courses = Course.objects.all()  
+    courses = Course.objects.filter(status='Posted')  
     return render(request, 'courses/course_list.html', {'courses': courses})
 
 @login_required
