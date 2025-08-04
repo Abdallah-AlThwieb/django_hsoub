@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'dashboard',
     'accounts',
     'widget_tweaks',
+    'django_seed',
 ]
 
 MIDDLEWARE = [

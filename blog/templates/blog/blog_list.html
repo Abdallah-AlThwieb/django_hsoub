@@ -8,22 +8,31 @@
     <h1 class="mb-4">{% trans "المقالات" %}</h1>
 
     {% for post in posts %}
-        <div class="card mb-3 shadow-sm">
-            <div class="card-body">
-                <h3 class="card-title">
-                    <a href="{% url 'blog:blog_detail' slug=post.slug %}">{{ post.title }}</a>
-                </h3>
-                <p class="text-muted small">
-                    {% trans "نشر بتاريخ" %} {{ post.created_at|date:"Y/m/d" }}
-                </p>
-                <p class="card-text">{{ post.content|truncatewords:30 }}</p>
-                <a href="{% url 'blog:blog_detail' slug=post.slug %}" class="btn btn-outline-primary btn-sm">
-                    {% trans "قراءة المزيد" %}
-                </a>
+    <div class="card mb-3 shadow-sm">
+        <div class="row g-0">
+            {% if post.image %}
+                <div class="col-md-4">
+                    <img src="{{ post.image.url }}" class="img-fluid rounded-start" alt="{{ post.title }}">
+                </div>
+            {% endif %}
+            <div class="{% if post.image %}col-md-8{% else %}col-md-12{% endif %}">
+                <div class="card-body">
+                    <h3 class="card-title">
+                        <a href="{% url 'blog:blog_detail' slug=post.slug %}">{{ post.title }}</a>
+                    </h3>
+                    <p class="text-muted small">
+                        {% trans "نشر بتاريخ" %} {{ post.created_at|date:"Y/m/d" }}
+                    </p>
+                    <p class="card-text">{{ post.content|truncatewords:30 }}</p>
+                    <a href="{% url 'blog:blog_detail' slug=post.slug %}" class="btn btn-outline-primary btn-sm">
+                        {% trans "قراءة المزيد" %}
+                    </a>
+                </div>
             </div>
         </div>
+    </div>
     {% empty %}
-        <p class="text-muted">{% trans "لا توجد مقالات حالياً." %}</p>
+    <p class="text-muted">{% trans "لا توجد مقالات حالياً." %}</p>
     {% endfor %}
 </div>
 {% endblock %}

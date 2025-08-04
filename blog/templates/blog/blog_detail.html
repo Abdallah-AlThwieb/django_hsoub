@@ -6,6 +6,9 @@
 {% block content %}
 <div class="container mt-5">
     <article class="card shadow-sm p-4">
+        {% if post.image %}
+            <img src="{{ post.image.url }}" class="img-fluid rounded mb-4" alt="{{ post.title }}">
+        {% endif %}
         <h1 class="mb-3">{{ post.title }}</h1>
         <p class="text-muted small mb-4">
             {% trans "نشر بتاريخ" %} {{ post.created_at|date:"Y/m/d" }}

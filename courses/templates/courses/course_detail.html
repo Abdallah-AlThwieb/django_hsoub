@@ -15,52 +15,76 @@
 
     <div class="row">
         <div class="col-md-8">
-            <p><strong>{% trans "الوصف" %}:</strong></p>
-            <p>{{ course.description }}</p>
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{% trans "الوصف" %}</h5>
+                    <p class="card-text">{{ course.description }}</p>
 
-            <p><strong>{% trans "السعر" %}:</strong> {{ course.price }}$</p>
+                    <hr>
 
-            {% if course.lessons.exists %}
-                <h4 class="mt-4">{% trans "الدروس" %} ({{ course.lessons.count }}) :</h4>
-                <ul class="list-group">
-                    {% for lesson in course.lessons.all %}
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        {{ lesson.title }}
-                        {% if request.user.is_authenticated %}
-                            {% if request.user.is_superuser or request.user in course.students.all %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>{% trans "السعر" %}:</strong> {{ course.price }}$</p>
+                            {% if course.duration %}
+                            <p><strong>{% trans "مدة الدورة" %}:</strong> {{ course.duration }}</p>
+                            {% endif %}
+                            {% if course.level %}
+                            <p><strong>{% trans "مستوى الدورة" %}:</strong> {{ course.level }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            {% if course.prerequisites %}
+                            <p><strong>{% trans "متطلبات الدورة" %}:</strong></p>
+                            <p>{{ course.prerequisites }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% if user.is_authenticated and (user.is_superuser or user in course.students.all) %}
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">{% trans "الدروس" %} ({{ course.lessons.count }})</h5>
+                        {% if course.lessons.all %}
+                        <ul class="list-group list-group-flush">
+                            {% for lesson in course.lessons.all %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {{ lesson.title }}
                                 <a href="{% url 'courses:lesson_detail' lesson.id %}" class="btn btn-sm btn-outline-primary">
                                     {% trans "عرض" %}
                                 </a>
-                            {% else %}
-                                <span class="badge bg-secondary">{% trans "اشترك لمشاهدة الدورة" %}</span>
-                            {% endif %}
+                            </li>
+                            {% endfor %}
+                        </ul>
                         {% else %}
-                            <span class="badge bg-secondary">{% trans "سجّل الدخول للاطلاع" %}</span>
+                        <p class="text-muted mt-2">{% trans "لا توجد دروس مضافة لهذه الدورة بعد." %}</p>
                         {% endif %}
-                    </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p class="text-muted">{% trans "لا توجد دروس مضافة لهذه الدورة بعد." %}</p>
+                    </div>
+                </div>
             {% endif %}
         </div>
 
         <div class="col-md-4">
-            {% if user.is_authenticated %}
-                {% if user.is_superuser or user in course.students.all %}
-                    <div class="alert alert-success">
-                        ✅ {% trans "أنت مسجل في هذه الدورة" %}
-                    </div>
-                {% else %}
-                    <a href="{% url 'courses:buy_course' course.id %}" class="btn btn-success w-100">
-                        {% trans "اشترك الآن" %}
-                    </a>
-                {% endif %}
-            {% else %}
-                <a href="{% url 'login' %}" class="btn btn-warning w-100">
-                    {% trans "سجّل الدخول للاشتراك" %}
-                </a>
-            {% endif %}
+            <div class="card shadow-sm mb-4">
+                <div class="card-body text-center">
+                    {% if user.is_authenticated %}
+                        {% if user.is_superuser or user in course.students.all %}
+                            <div class="alert alert-success mb-0">
+                                ✅ {% trans "أنت مسجل في هذه الدورة" %}
+                            </div>
+                        {% else %}
+                            <a href="{% url 'courses:buy_course' course.id %}" class="btn btn-success w-100">
+                                {% trans "اشترك الآن" %}
+                            </a>
+                        {% endif %}
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn btn-warning w-100">
+                            {% trans "سجّل الدخول للاشتراك" %}
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
         </div>
     </div>
 </div>

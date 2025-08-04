@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-01 06:49+0300\n"
+"POT-Creation-Date: 2025-08-04 17:45+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\Hsoub_project\settings.py:115
+#: .\Hsoub_project\settings.py:119
 msgid "Arabic"
 msgstr ""
 
-#: .\Hsoub_project\settings.py:116
+#: .\Hsoub_project\settings.py:120
 msgid "English"
 msgstr ""
 
@@ -38,7 +38,11 @@ msgstr "Article title"
 msgid "المحتوى"
 msgstr "Content"
 
-#: .\blog\forms.py:12 .\dashboard\templates\dashboard\blog\add_post.html:8
+#: .\blog\forms.py:12 .\blog\models.py:12
+msgid "صورة المقال"
+msgstr "Article picture"
+
+#: .\blog\forms.py:13 .\dashboard\templates\dashboard\blog\add_post.html:9
 msgid "نشر المقالة"
 msgstr "Publish the article"
 
@@ -58,33 +62,33 @@ msgstr "Author"
 msgid "محتوى المقال"
 msgstr "Article content"
 
-#: .\blog\models.py:12 .\courses\admin.py:70 .\courses\models.py:43
+#: .\blog\models.py:13 .\courses\admin.py:70 .\courses\models.py:46
 #: .\dashboard\templates\dashboard\blog\post_list.html:12
 msgid "تاريخ النشر"
 msgstr "publication date"
 
-#: .\blog\models.py:13
+#: .\blog\models.py:14
 msgid "آخر تحديث"
 msgstr "Last update"
 
-#: .\blog\models.py:14
+#: .\blog\models.py:15
 msgid "منشور"
 msgstr "Posted"
 
-#: .\blog\models.py:17
+#: .\blog\models.py:18
 msgid "مقال"
 msgstr "Article"
 
-#: .\blog\models.py:18
+#: .\blog\models.py:19
 msgid "مقالات"
 msgstr "Articles"
 
-#: .\blog\templates\blog\blog_detail.html:11
-#: .\blog\templates\blog\blog_list.html:17
+#: .\blog\templates\blog\blog_detail.html:14
+#: .\blog\templates\blog\blog_list.html:24
 msgid "نشر بتاريخ"
 msgstr "Published on"
 
-#: .\blog\templates\blog\blog_detail.html:19
+#: .\blog\templates\blog\blog_detail.html:22
 msgid "العودة إلى المقالات"
 msgstr "Back to the articles"
 
@@ -94,11 +98,11 @@ msgstr "Back to the articles"
 msgid "المقالات"
 msgstr "The articles"
 
-#: .\blog\templates\blog\blog_list.html:21
+#: .\blog\templates\blog\blog_list.html:28
 msgid "قراءة المزيد"
 msgstr "Read more"
 
-#: .\blog\templates\blog\blog_list.html:26
+#: .\blog\templates\blog\blog_list.html:35
 msgid "لا توجد مقالات حالياً."
 msgstr "There are no articles now"
 
@@ -107,14 +111,14 @@ msgid "عنوان الدورة"
 msgstr "Course title"
 
 #: .\courses\admin.py:22 .\courses\models.py:10
-#: .\courses\templates\courses\course_detail.html:21
+#: .\courses\templates\courses\course_detail.html:27
 #: .\courses\templates\courses\course_list.html:26
 #: .\dashboard\templates\dashboard\dashboard_post_list.html:15
 msgid "السعر"
 msgstr "Price"
 
 #: .\courses\admin.py:26 .\courses\admin.py:50 .\courses\models.py:11
-#: .\courses\models.py:28
+#: .\courses\models.py:31
 msgid "تاريخ الإنشاء"
 msgstr "Creation date"
 
@@ -123,19 +127,19 @@ msgstr "Creation date"
 msgid "منشورة"
 msgstr "Posted"
 
-#: .\courses\admin.py:42 .\courses\models.py:26
+#: .\courses\admin.py:42 .\courses\models.py:29
 msgid "عنوان الدرس"
 msgstr "Lesson title"
 
-#: .\courses\admin.py:46 .\courses\models.py:25
+#: .\courses\admin.py:46 .\courses\models.py:28
 msgid "الدورة"
 msgstr "Course"
 
-#: .\courses\admin.py:62 .\courses\models.py:40
+#: .\courses\admin.py:62 .\courses\models.py:43
 msgid "المستخدم"
 msgstr "User"
 
-#: .\courses\admin.py:66 .\courses\models.py:41
+#: .\courses\admin.py:66 .\courses\models.py:44
 #: .\courses\templates\courses\lesson_detail.html:5
 msgid "الدرس"
 msgstr "Lesson"
@@ -160,70 +164,74 @@ msgstr "Subscribed students"
 msgid "صورة الدورة"
 msgstr "Course picture"
 
-#: .\courses\models.py:16
+#: .\courses\models.py:14 .\courses\templates\courses\course_detail.html:29
+msgid "مدة الدورة"
+msgstr "Course duration"
+
+#: .\courses\models.py:15 .\courses\templates\courses\course_detail.html:32
+msgid "مستوى الدورة"
+msgstr "Course level"
+
+#: .\courses\models.py:16 .\courses\templates\courses\course_detail.html:37
+msgid "متطلبات الدورة"
+msgstr "Course requirements"
+
+#: .\courses\models.py:19
 msgid "دورة"
 msgstr "Course"
 
-#: .\courses\models.py:17 .\dashboard\templates\dashboard\base.html:23
+#: .\courses\models.py:20 .\dashboard\templates\dashboard\base.html:23
 #: .\templates\base.html:27
 msgid "الدورات"
 msgstr "Courses"
 
-#: .\courses\models.py:27
+#: .\courses\models.py:30
 msgid "فيديو"
 msgstr "Video"
 
-#: .\courses\models.py:31 .\dashboard\templates\dashboard\add_course.html:51
+#: .\courses\models.py:34 .\dashboard\templates\dashboard\add_course.html:51
 #: .\dashboard\templates\dashboard\edit_course.html:75
 msgid "درس"
 msgstr "Lesson"
 
-#: .\courses\models.py:32 .\courses\templates\courses\course_detail.html:24
+#: .\courses\models.py:35 .\courses\templates\courses\course_detail.html:48
 #: .\dashboard\templates\dashboard\add_course.html:45
 msgid "الدروس"
 msgstr "The lessons"
 
-#: .\courses\models.py:42
+#: .\courses\models.py:45
 msgid "التعليق"
 msgstr "The comment"
 
-#: .\courses\models.py:46
+#: .\courses\models.py:49
 msgid "تعليق"
 msgstr "Comment"
 
-#: .\courses\models.py:47 .\courses\templates\courses\lesson_detail.html:30
+#: .\courses\models.py:50 .\courses\templates\courses\lesson_detail.html:30
 msgid "التعليقات"
 msgstr "The comments"
 
-#: .\courses\templates\courses\course_detail.html:18
+#: .\courses\templates\courses\course_detail.html:20
 msgid "الوصف"
 msgstr "The description"
 
-#: .\courses\templates\courses\course_detail.html:32
+#: .\courses\templates\courses\course_detail.html:55
 msgid "عرض"
 msgstr "View"
 
-#: .\courses\templates\courses\course_detail.html:35
-msgid "اشترك لمشاهدة الدورة"
-msgstr "Subscribe to watch the course"
-
-#: .\courses\templates\courses\course_detail.html:38
-msgid "سجّل الدخول للاطلاع"
-msgstr "Login to view"
-
-#: .\courses\templates\courses\course_detail.html:44
+#: .\courses\templates\courses\course_detail.html:61
 msgid "لا توجد دروس مضافة لهذه الدورة بعد."
 msgstr "There are no lessons in this course yet"
 
-#: .\courses\templates\courses\course_detail.html:52
+#: .\courses\templates\courses\course_detail.html:74
 msgid "أنت مسجل في هذه الدورة"
 msgstr "You have Subscribed in this course"
 
-#: .\courses\templates\courses\course_detail.html:56
+#: .\courses\templates\courses\course_detail.html:78
 msgid "اشترك الآن"
 msgstr "Subscribe now"
 
-#: .\courses\templates\courses\course_detail.html:61
+#: .\courses\templates\courses\course_detail.html:83
 msgid "سجّل الدخول للاشتراك"
 msgstr "Login to subscribe"
 
@@ -249,7 +257,9 @@ msgstr "Welcome to educational courses platform"
 
 #: .\courses\templates\courses\home.html:8
 msgid "منصة لمتابعة أداء الطلاب ومشاركة الدورات مع المشرفين والطلاب."
-msgstr "A platform to monitor students' performance and share the courses with the students"
+msgstr ""
+"A platform to monitor students' performance and share the courses with the "
+"students"
 
 #: .\courses\templates\courses\home.html:22
 #: .\courses\templates\courses\my_courses.html:19
@@ -263,10 +273,6 @@ msgstr "There are no courses now"
 #: .\courses\templates\courses\home.html:37
 msgid "عدد الطلاب"
 msgstr "Number of students"
-
-#: .\courses\templates\courses\home.html:45
-msgid "عدد المشرفين"
-msgstr "Number of supervisor"
 
 #: .\courses\templates\courses\lesson_detail.html:17
 msgid "متصفحك لا يدعم تشغيل الفيديو."
@@ -372,9 +378,9 @@ msgstr "Logout"
 msgid "إضافة مقالة جديدة"
 msgstr "Add a new article"
 
-#: .\dashboard\templates\dashboard\blog\add_post.html:9
+#: .\dashboard\templates\dashboard\blog\add_post.html:10
 #: .\dashboard\templates\dashboard\blog\delete_post.html:10
-#: .\dashboard\templates\dashboard\blog\edit_post.html:9
+#: .\dashboard\templates\dashboard\blog\edit_post.html:10
 #: .\dashboard\templates\dashboard\confirm_delete_course.html:17
 #: .\dashboard\templates\dashboard\dashboard_post_confirm_delete.html:11
 #: .\dashboard\templates\dashboard\edit_course.html:91
@@ -401,7 +407,7 @@ msgstr "Yes, delete"
 msgid "تعديل المقالة"
 msgstr "Edit article"
 
-#: .\dashboard\templates\dashboard\blog\edit_post.html:8
+#: .\dashboard\templates\dashboard\blog\edit_post.html:9
 #: .\dashboard\templates\dashboard\edit_course.html:90
 msgid "حفظ التعديلات"
 msgstr "Save modifications"
@@ -461,8 +467,9 @@ msgid "إدارة المقالات"
 msgstr "Article management"
 
 #: .\dashboard\templates\dashboard\dashboard_post_confirm_delete.html:6
+#, python-format
 msgid "هل أنت متأكد من حذف المقالة \"%(post_title)s\"؟"
-msgstr "Are you sure you want to delete the article \"%(post.title)s\"?"
+msgstr "Are you sure you want to delete the article \"%(post_title)s\"?"
 
 #: .\dashboard\templates\dashboard\dashboard_post_form.html:6
 #: .\dashboard\templates\dashboard\dashboard_post_form.html:16
@@ -649,6 +656,15 @@ msgstr "Do you already have an account?"
 #: .\templates\registration\signup.html:53
 msgid "سجل الدخول"
 msgstr "Login"
+
+#~ msgid "اشترك لمشاهدة الدورة"
+#~ msgstr "Subscribe to watch the course"
+
+#~ msgid "سجّل الدخول للاطلاع"
+#~ msgstr "Login to view"
+
+#~ msgid "عدد المشرفين"
+#~ msgstr "Number of supervisor"
 
 #~ msgid "تعديل الدروس المرتبطة"
 #~ msgstr "Edit the lessons"

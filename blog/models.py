@@ -9,6 +9,7 @@ class Post(models.Model):
     slug = models.SlugField(unique=True, allow_unicode=True, blank=True, verbose_name=_("الرابط"))
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_("الكاتب"))
     content = models.TextField(verbose_name=_("محتوى المقال"))
+    image = models.ImageField(upload_to='blog_images/', null=True, blank=True, verbose_name=_("صورة المقال"))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("تاريخ النشر"))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("آخر تحديث"))
     is_published = models.BooleanField(default=True, verbose_name=_("منشور"))

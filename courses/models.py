@@ -11,6 +11,9 @@ class Course(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("تاريخ الإنشاء"))
     students = models.ManyToManyField(User, related_name="courses", blank=True, verbose_name=_("الطلاب المشتركين"))
     image = models.ImageField(upload_to='course_images/', null=True, blank=True, verbose_name=_("صورة الدورة"))
+    duration = models.CharField(max_length=100, blank=True, null=True, verbose_name=_("مدة الدورة"))
+    level = models.CharField(max_length=100, blank=True, null=True, verbose_name=_("مستوى الدورة"))
+    prerequisites = models.TextField(blank=True, null=True, verbose_name=_("متطلبات الدورة"))
     
     class Meta:
         verbose_name = _("دورة")

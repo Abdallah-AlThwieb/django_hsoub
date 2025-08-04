@@ -13,7 +13,7 @@ def signup(request):
             user = form.save()
             login(request, user)
             messages.success(request, _("تم إنشاء الحساب بنجاح، يمكنك تسجيل الدخول الآن."))
-            return redirect('login')  # يعتمد على اسم المسار في urls
+            return redirect('home_page')  
     else:
         form = CustomUserCreationForm()
     return render(request, 'registration/signup.html', {'form': form})
