@@ -96,6 +96,25 @@ def delete_post(request, post_id):
     return render(request, "dashboard/blog/delete_post.html", {"post": post})
 
 @user_passes_test(is_admin)
+def bulk_delete_posts(request):
+    if request.method == 'POST':
+        ids = request.POST.getlist('selected_posts')
+        if ids:
+            Post.objects.filter(id__in=ids).delete()
+            messages.success(request, f"تم حذف {len(ids)} مقالة.")
+        else:
+            messages.warning(request, "لم يتم تحديد أي مقالة.")
+    return redirect('dashboard:confirm_bulk_delete') 
+
+@user_passes_test(is_admin)
+def confirm_bulk_delete(request):
+    if request.method == 'POST':
+        ids = request.POST.getlist('selected_posts')
+        posts = Post.objects.filter(id__in=ids)
+        return render(request, 'dashboard/blog/confirm_bulk_delete.html', {'posts': posts})
+    return redirect('dashboard:post_list')
+
+@user_passes_test(is_admin)
 def post_list(request):
     posts = Post.objects.all()
     return render(request, "dashboard/blog/post_list.html", {"posts": posts})

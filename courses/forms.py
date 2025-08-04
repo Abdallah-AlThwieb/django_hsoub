@@ -18,8 +18,7 @@ class CommentForm(forms.ModelForm):
 class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
-        fields = ['title', 'description', 'price', 'is_published',
-                  'duration', 'level', 'prerequisites']
+        fields = ['title', 'description', 'price', 'is_published','duration', 'level', 'prerequisites']
 
 
 class LessonForm(forms.ModelForm):

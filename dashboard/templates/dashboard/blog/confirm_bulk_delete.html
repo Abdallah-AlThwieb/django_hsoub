@@ -1,0 +1,26 @@
+{% extends "dashboard/base.html" %}
+{% load i18n %}
+
+{% block content %}
+<h2 class="mb-4">{% trans "تأكيد حذف المقالات" %}</h2>
+
+{% if posts %}
+    <form method="post" action="{% url 'dashboard:bulk_delete_posts' %}">
+        {% csrf_token %}
+        <p>{% trans "هل أنت متأكد أنك تريد حذف المقالات التالية؟" %}</p>
+        <ul class="list-group mb-3">
+            {% for post in posts %}
+                <li class="list-group-item">
+                    <strong>{{ post.title }}</strong>
+                    <input type="hidden" name="selected_posts" value="{{ post.id }}">
+                </li>
+            {% endfor %}
+        </ul>
+        <button type="submit" class="btn btn-danger">{% trans "تأكيد الحذف" %}</button>
+        <a href="{% url 'dashboard:post_list' %}" class="btn btn-secondary">{% trans "إلغاء" %}</a>
+    </form>
+{% else %}
+    <p>{% trans "لم يتم تحديد أي مقالة." %}</p>
+    <a href="{% url 'dashboard:post_list' %}" class="btn btn-primary">{% trans "عودة للمقالات" %}</a>
+{% endif %}
+{% endblock %}

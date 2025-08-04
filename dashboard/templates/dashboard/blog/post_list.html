@@ -1,33 +1,53 @@
 {% extends "dashboard/base.html" %}
 {% load i18n %}
+
 {% block content %}
 <h2>{% trans "جميع المقالات" %}</h2>
 
 <a class="btn btn-primary mb-3" href="{% url 'dashboard:add_post' %}">➕ {% trans "إضافة مقالة" %}</a>
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>{% trans "العنوان" %}</th>
-            <th>{% trans "تاريخ النشر" %}</th>
-            <th>{% trans "إجراءات" %}</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for post in posts %}
-        <tr>
-            <td>{{ post.title }}</td>
-            <td>{{ post.created_at|date:"Y-m-d" }}</td>
-            <td>
-                <a class="btn btn-sm btn-warning" href="{% url 'dashboard:edit_post' post.id %}">{% trans "تعديل" %}</a>
-                <a class="btn btn-sm btn-danger" href="{% url 'dashboard:delete_post' post.id %}">{% trans "حذف" %}</a>
-            </td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="3">{% trans "لا توجد مقالات حاليًا." %}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<form method="post" action="{% url 'dashboard:confirm_bulk_delete' %}">
+  {% csrf_token %}
+  <table class="table table-bordered">
+      <thead>
+          <tr>
+              <th><input type="checkbox" id="select-all"></th>
+              <th>{% trans "العنوان" %}</th>
+              <th>{% trans "تاريخ النشر" %}</th>
+              <th>{% trans "إجراءات" %}</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for post in posts %}
+          <tr>
+              <td><input type="checkbox" name="selected_posts" value="{{ post.id }}"></td>
+              <td>{{ post.title }}</td>
+              <td>{{ post.created_at|date:"Y-m-d" }}</td>
+              <td>
+                  <a class="btn btn-sm btn-warning" href="{% url 'dashboard:edit_post' post.id %}">{% trans "تعديل" %}</a>
+                  <a class="btn btn-sm btn-danger" href="{% url 'dashboard:delete_post' post.id %}">{% trans "حذف" %}</a>
+              </td>
+          </tr>
+          {% empty %}
+          <tr>
+              <td colspan="4">{% trans "لا توجد مقالات حاليًا." %}</td>
+          </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+
+  <button type="submit" class="btn btn-danger mt-2">{% trans "🗑 حذف المحدد" %}</button>
+</form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const selectAll = document.getElementById('select-all');
+  const checkboxes = document.querySelectorAll('input[name="selected_posts"]');
+  if (selectAll) {
+    selectAll.addEventListener('change', function () {
+      checkboxes.forEach(cb => cb.checked = selectAll.checked);
+    });
+  }
+});
+</script>
 {% endblock %}

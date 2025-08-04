@@ -42,7 +42,7 @@
                 </div>
             </div>
 
-            {% if user.is_authenticated and (user.is_superuser or user in course.students.all) %}
+            {% if user.is_authenticated and user.is_superuser or user in course.students.all %}
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <h5 class="card-title">{% trans "الدروس" %} ({{ course.lessons.count }})</h5>

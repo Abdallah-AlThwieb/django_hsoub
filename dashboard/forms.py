@@ -4,13 +4,16 @@ from courses.models import Course, Lesson
 class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
-        fields = ['title', 'description', 'price', 'is_published', 'image']  # أضف 'image'
+        fields = ['title', 'description', 'price', 'is_published', 'image', 'duration', 'level', 'prerequisites']
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
             'price': forms.NumberInput(attrs={'class': 'form-control'}),
             'is_published': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'image': forms.ClearableFileInput(attrs={'class': 'form-control-file'})  # شكل ملف الصورة
+            'image': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
+            'duration': forms.TextInput(attrs={'class': 'form-control'}),
+            'level': forms.TextInput(attrs={'class': 'form-control'}),
+            'prerequisites': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
         }
 
 

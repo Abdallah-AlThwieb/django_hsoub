@@ -61,6 +61,30 @@
               </div>
             {% endif %}
           </div>
+
+          <div class="mb-3">
+            {{ form.duration.label_tag }}
+            {{ form.duration }}
+            {% if form.duration.errors %}
+              <div class="text-danger">{{ form.duration.errors|striptags }}</div>
+            {% endif %}
+          </div>
+
+          <div class="mb-3">
+            {{ form.level.label_tag }}
+            {{ form.level }}
+            {% if form.level.errors %}
+              <div class="text-danger">{{ form.level.errors|striptags }}</div>
+            {% endif %}
+          </div>
+
+          <div class="mb-3">
+            {{ form.prerequisites.label_tag }}
+            {{ form.prerequisites }}
+            {% if form.prerequisites.errors %}
+              <div class="text-danger">{{ form.prerequisites.errors|striptags }}</div>
+            {% endif %}
+          </div>
         </div>
       </div>
 
