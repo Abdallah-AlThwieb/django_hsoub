@@ -1,0 +1,125 @@
+{% extends "dashboard/base.html" %}
+{% load i18n static %}
+
+{% block title %}{% trans "إضافة دورة جديدة" %}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="mb-4"><i class="bi bi-plus-circle"></i> {% trans "إضافة دورة جديدة" %}</h2>
+
+    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+        {% csrf_token %}
+
+        <!-- بيانات الدورة -->
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-header bg-primary text-white fw-bold">
+                <i class="bi bi-info-circle"></i> {% trans "بيانات الدورة" %}
+            </div>
+            <div class="card-body row g-3">
+                <div class="col-md-6">
+                    {{ form.title.label_tag }}
+                    {{ form.title }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.instructor.label_tag }}  {# الحقل الجديد #}
+                    {{ form.instructor }}
+                </div>
+                <div class="col-md-12">
+                    {{ form.description.label_tag }}
+                    {{ form.description }}
+                </div>
+                <div class="col-md-4">
+                    {{ form.price.label_tag }}
+                    {{ form.price }}
+                </div>
+                <div class="col-md-4">
+                    {{ form.category.label_tag }}  {# الحقل الجديد #}
+                    {{ form.category }}
+                </div>
+                <div class="col-md-4">
+                    {{ form.level.label_tag }}
+                    {{ form.level }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.duration.label_tag }}
+                    {{ form.duration }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.prerequisites.label_tag }}
+                    {{ form.prerequisites }}
+                </div>
+                <div class="col-md-12">
+                    {{ form.is_published }}
+                    {{ form.is_published.label_tag }}
+                </div>
+
+                <!-- صورة الدورة -->
+                <div class="col-md-6">
+                    {{ form.image.label_tag }}
+                    <div class="input-group">
+                        {{ form.image }}
+                        <button type="button" class="btn btn-outline-danger" onclick="removeFile('id_image')">
+                            <i class="bi bi-x-circle"></i> {% trans "إزالة" %}
+                        </button>
+                    </div>
+                    {% if form.image.help_text %}
+                        <small class="form-text text-muted">{{ form.image.help_text }}</small>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- قسم الدروس -->
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-header bg-info text-white fw-bold">
+                <i class="bi bi-journal-text"></i> {% trans "الدروس" %}
+            </div>
+            <div class="card-body">
+                {{ formset.management_form }}
+                {% for form in formset.forms %}
+                    <div class="border rounded p-3 mb-3 bg-light">
+                        <h6 class="mb-3"><i class="bi bi-book"></i> {% trans "درس" %} {{ forloop.counter }}</h6>
+
+                        <!-- حقول الدرس -->
+                        <div class="mb-3">
+                            {{ form.title.label_tag }}
+                            {{ form.title }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.content.label_tag }}
+                            {{ form.content }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.video.label_tag }}
+                            <div class="input-group">
+                                {{ form.video }}
+                                <button type="button" class="btn btn-outline-danger" onclick="removeFile('{{ form.video.id_for_label }}')">
+                                    <i class="bi bi-x-circle"></i> {% trans "إزالة" %}
+                                </button>
+                            </div>
+                        </div>
+                        {% if form.instance.pk %}
+                            <input type="hidden" name="{{ form.prefix }}-id" value="{{ form.instance.pk }}">
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- الأزرار -->
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-success px-4"><i class="bi bi-check-circle"></i> {% trans "نشر الدورة" %}</button>
+            <a href="{% url 'dashboard:course_list' %}" class="btn btn-secondary px-4"><i class="bi bi-arrow-left"></i> {% trans "عودة" %}</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    function removeFile(inputId) {
+        const input = document.getElementById(inputId);
+        if (input) {
+            input.value = "";
+        }
+    }
+</script>
+{% endblock %}

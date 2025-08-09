@@ -1,0 +1,19 @@
+{% load i18n static %}
+<header id="header" class="header d-flex align-items-center sticky-top">
+  <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+
+    <!-- الشعار -->
+    <a href="{% url 'home_page' %}" class="logo d-flex align-items-center me-auto">
+      <h1 class="sitename">{% trans "أكاديمية حسوب" %}</h1>
+    </a>
+
+    <!-- القائمة -->
+    {% include "includes/navbar.html" %}
+
+    <!-- زر البدء -->
+    <a class="btn-getstarted" href="#courses">
+      {% trans "ابدأ الآن" %}
+    </a>
+
+  </div>
+</header>

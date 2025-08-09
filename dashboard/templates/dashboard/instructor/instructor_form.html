@@ -1,0 +1,110 @@
+{% extends "dashboard/base.html" %}
+{% load i18n static %}
+
+{% block title %}
+  {% if form.instance.full_name %}
+    {% trans "تعديل المدرب" %}: {{ form.instance.full_name }}
+  {% else %}
+    {% trans "إضافة مدرب جديد" %}
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4">
+    {% if form.instance.full_name %}
+      <i class="bi bi-pencil-square"></i> {% trans "تعديل المدرب" %}
+    {% else %}
+      <i class="bi bi-person-plus"></i> {% trans "إضافة مدرب" %}
+    {% endif %}
+  </h2>
+
+  <form method="post" enctype="multipart/form-data" class="row g-3 needs-validation" novalidate>
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+
+    <div class="col-md-6">
+      {{ form.full_name.label_tag }}
+      {{ form.full_name }}
+      {% for err in form.full_name.errors %}<div class="text-danger">{{ err }}</div>{% endfor %}
+    </div>
+
+    <div class="col-md-6">
+      {{ form.email.label_tag }}
+      {{ form.email }}
+      {% for err in form.email.errors %}<div class="text-danger">{{ err }}</div>{% endfor %}
+    </div>
+
+    {% if not form.instance.pk %}
+      <div class="col-md-6">
+        {{ form.username.label_tag }}
+        {{ form.username }}
+        {% for err in form.username.errors %}<div class="text-danger">{{ err }}</div>{% endfor %}
+      </div>
+      <div class="col-md-6">
+        {{ form.password.label_tag }}
+        {{ form.password }}
+        {% for err in form.password.errors %}<div class="text-danger">{{ err }}</div>{% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="col-md-6">
+      {{ form.specialty.label_tag }}
+      {{ form.specialty }}
+    </div>
+
+    <div class="col-md-6">
+      {{ form.rating.label_tag }}
+      {{ form.rating }}
+    </div>
+
+    <div class="col-12">
+      {{ form.bio.label_tag }}
+      {{ form.bio }}
+    </div>
+
+    <div class="col-md-6">
+      {{ form.photo.label_tag }}
+      <div class="input-group">
+        {{ form.photo }}
+        <button type="button" class="btn btn-outline-danger" onclick="removeFile('id_photo')">
+          <i class="bi bi-x-circle"></i> {% trans "إزالة" %}
+        </button>
+      </div>
+      {% if form.instance.photo %}
+        <div class="mt-2">
+          <label class="form-label d-block">{% trans "الصورة الحالية" %}</label>
+          <img src="{{ form.instance.photo.url }}" alt="{{ form.instance.full_name }}" class="img-thumbnail" style="max-width:160px;">
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="col-md-6">
+      {{ form.facebook.label_tag }}
+      {{ form.facebook }}
+    </div>
+    <div class="col-md-6">
+      {{ form.twitter.label_tag }}
+      {{ form.twitter }}
+    </div>
+    <div class="col-md-6">
+      {{ form.linkedin.label_tag }}
+      {{ form.linkedin }}
+    </div>
+
+    <div class="col-12">
+      <button type="submit" class="btn btn-success">
+        <i class="bi bi-save"></i> {% trans "حفظ" %}
+      </button>
+      <a href="{% url 'dashboard:instructor_list' %}" class="btn btn-secondary">{% trans "إلغاء" %}</a>
+    </div>
+  </form>
+</div>
+
+<script>
+function removeFile(fieldId) {
+    const input = document.getElementById(fieldId);
+    if (input) input.value = "";
+}
+</script>
+{% endblock %}

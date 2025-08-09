@@ -1,6 +1,10 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
-from .models import Course, Lesson, Comment
+from .models import Course, Lesson, Comment, Instructor, Testimonial
+
+
+admin.site.register(Instructor)
+
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
@@ -68,3 +72,9 @@ class CommentAdmin(admin.ModelAdmin):
     def created_at(self, obj):
         return obj.created_at
     created_at.short_description = _("تاريخ النشر")
+
+
+@admin.register(Testimonial)
+class TestimonialAdmin(admin.ModelAdmin):
+    list_display = ('name', 'rating', 'source')
+    search_fields = ('name', 'role', 'source')

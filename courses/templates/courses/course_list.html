@@ -3,11 +3,128 @@
 {% load i18n %}
 
 {% block content %}
+<form method="get" class="mb-4">
+  <div class="row">
+
+    <div class="col-md-3">
+      <label>{% trans "الفئة" %}</label>
+      <select name="category" class="form-select">
+        <option value="">{% trans "الكل" %}</option>
+        {% for cat in categories %}
+          <option value="{{ cat.name }}" {% if request.GET.category == cat.name %}selected{% endif %}>{{ cat.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-md-3">
+      <label>{% trans "المستوى" %}</label>
+      <select name="level" class="form-select">
+        <option value="">{% trans "الكل" %}</option>
+        {% for lvl in levels %}
+          <option value="{{ lvl }}" {% if request.GET.level == lvl %}selected{% endif %}>{{ lvl }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-md-3">
+      <label>{% trans "المدة" %}</label>
+      <select name="duration" class="form-select">
+        <option value="">{% trans "الكل" %}</option>
+        {% for dur in durations %}
+          <option value="{{ dur }}" {% if request.GET.duration == dur %}selected{% endif %}>{{ dur }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-md-3">
+      <label>{% trans "السعر" %}</label>
+      <select name="price" class="form-select">
+        <option value="">{% trans "الكل" %}</option>
+        <option value="free" {% if request.GET.price == 'free' %}selected{% endif %}>{% trans "مجانية" %}</option>
+        <option value="paid" {% if request.GET.price == 'paid' %}selected{% endif %}>{% trans "مدفوعة" %}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="mt-3 text-end">
+    <button type="submit" class="btn btn-primary">{% trans "تصفية" %}</button>
+  </div>
+</form>
+
+<div class="courses-header mb-4" data-aos="fade-left" data-aos-delay="100">
+  <form method="get" class="d-flex flex-column flex-md-row gap-3 align-items-start align-items-md-center">
+
+    <div class="search-box position-relative flex-grow-1">
+      <input type="text" name="q" class="form-control ps-5" placeholder="{% trans 'ابحث في الدورات...' %}" value="{{ request.GET.q }}">
+      <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+    </div>
+
+    <div class="sort-dropdown">
+      <select name="sort" class="form-select" onchange="this.form.submit()">
+        <option value="popular" {% if request.GET.sort == "popular" %}selected{% endif %}>{% trans "الأكثر شيوعًا" %}</option>
+        <option value="newest" {% if request.GET.sort == "newest" %}selected{% endif %}>{% trans "الأحدث" %}</option>
+        <option value="price_low" {% if request.GET.sort == "price_low" %}selected{% endif %}>{% trans "السعر: من الأقل للأعلى" %}</option>
+        <option value="price_high" {% if request.GET.sort == "price_high" %}selected{% endif %}>{% trans "السعر: من الأعلى للأقل" %}</option>
+        <option value="duration" {% if request.GET.sort == "duration" %}selected{% endif %}>{% trans "المدة: من الأقصر للأطول" %}</option>
+      </select>
+    </div>
+
+  </form>
+</div>
+
+<div class="pagination-wrapper" data-aos="fade-up" data-aos-delay="300">
+  <nav aria-label="Courses pagination">
+    <ul class="pagination justify-content-center">
+
+      {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+            <i class="bi bi-chevron-right"></i>  <!-- لأن RTL -->
+          </a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <a class="page-link" href="#">
+            <i class="bi bi-chevron-right"></i>
+          </a>
+        </li>
+      {% endif %}
+
+      {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+          <li class="page-item active">
+            <a class="page-link" href="#">{{ num }}</a>
+          </li>
+        {% else %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+          </li>
+        {% endif %}
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+            <i class="bi bi-chevron-left"></i>
+          </a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <a class="page-link" href="#">
+            <i class="bi bi-chevron-left"></i>
+          </a>
+        </li>
+      {% endif %}
+
+    </ul>
+  </nav>
+</div>
+
 <div class="container mt-5">
     <h2 class="mb-4">{% trans "الدورات المتاحة" %}</h2>
 
     <div class="row">
-        {% for course in courses %}
+        {% for course in page_obj %}
         <div class="col-md-4">
             <div class="card mb-4 shadow-sm h-100">
                 

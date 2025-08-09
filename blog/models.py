@@ -13,6 +13,7 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("تاريخ النشر"))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("آخر تحديث"))
     is_published = models.BooleanField(default=True, verbose_name=_("منشور"))
+    likes = models.PositiveIntegerField(default=0, verbose_name=_("إعجاب"))
 
     class Meta:
         verbose_name = _("مقال")

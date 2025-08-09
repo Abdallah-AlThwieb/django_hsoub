@@ -1,0 +1,58 @@
+{% load i18n static %}
+<footer id="footer" class="footer accent-background">
+  <div class="container footer-top">
+    <div class="row gy-4">
+      <div class="col-lg-5 col-md-12 footer-about">
+        <a href="{% url 'home_page' %}" class="logo d-flex align-items-center">
+          <span class="sitename">{% trans "أكاديمية حسوب" %}</span>
+        </a>
+        <p>{% trans "نص تجريبي عن المؤسسة، يمكنك تعديل هذا النص ليتحدث عن رسالتك وأهدافك التعليمية." %}</p>
+        <div class="social-links d-flex mt-4">
+          <a href="#"><i class="bi bi-twitter-x"></i></a>
+          <a href="#"><i class="bi bi-facebook"></i></a>
+          <a href="#"><i class="bi bi-instagram"></i></a>
+          <a href="#"><i class="bi bi-linkedin"></i></a>
+        </div>
+      </div>
+
+      <div class="col-lg-2 col-6 footer-links">
+        <h4>{% trans "روابط مهمة" %}</h4>
+        <ul>
+          <li><a href="#">{% trans "الرئيسية" %}</a></li>
+          <li><a href="#">{% trans "من نحن" %}</a></li>
+          <li><a href="#">{% trans "خدماتنا" %}</a></li>
+          <li><a href="#">{% trans "شروط الاستخدام" %}</a></li>
+          <li><a href="#">{% trans "سياسة الخصوصية" %}</a></li>
+        </ul>
+      </div>
+
+      <div class="col-lg-2 col-6 footer-links">
+        <h4>{% trans "خدماتنا" %}</h4>
+        <ul>
+          <li><a href="#">{% trans "تصميم المواقع" %}</a></li>
+          <li><a href="#">{% trans "تطوير الويب" %}</a></li>
+          <li><a href="#">{% trans "إدارة المنتجات" %}</a></li>
+          <li><a href="#">{% trans "التسويق" %}</a></li>
+          <li><a href="#">{% trans "تصميم الجرافيك" %}</a></li>
+        </ul>
+      </div>
+
+      <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+        <h4>{% trans "تواصل معنا" %}</h4>
+        <p>{% trans "نيويورك" %}</p>
+        <p>{% trans "الولايات المتحدة" %}</p>
+        <p class="mt-4"><strong>{% trans "الهاتف:" %}</strong> <span>#</span></p>
+        <p><strong>{% trans "البريد الإلكتروني:" %}</strong> <span>#</span></p>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="container copyright text-center mt-4">
+    <p>© {% trans "حقوق النشر" %} <strong class="px-1 sitename">{% trans "أكاديمية حسوب" %}</strong> {% trans "جميع الحقوق محفوظة" %}</p>
+    <div class="credits">
+      {% trans "تم التصميم بواسطة" %} <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    </div>
+  </div>
+
+</footer>

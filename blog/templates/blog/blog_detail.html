@@ -4,23 +4,80 @@
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <article class="card shadow-sm p-4">
-        {% if post.image %}
-            <img src="{{ post.image.url }}" class="img-fluid rounded mb-4" alt="{{ post.title }}">
-        {% endif %}
-        <h1 class="mb-3">{{ post.title }}</h1>
-        <p class="text-muted small mb-4">
-            {% trans "نشر بتاريخ" %} {{ post.created_at|date:"Y/m/d" }}
-        </p>
-        <div class="post-content">
-            {{ post.content|linebreaks }}
+<section id="blog-hero" class="blog-hero section mt-5">
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+    <article class="blog-item featured" data-aos="fade-up">
+      {% if post.image %}
+        <img src="{{ post.image.url }}" alt="{{ post.title }}" class="img-fluid rounded mb-4">
+      {% endif %}
+      <div class="blog-content">
+        <div class="post-meta mb-2 text-muted small">
+          <span class="date">{% trans "نشر بتاريخ" %} {{ post.created_at|date:"Y/m/d" }}</span>
         </div>
+        <h2 class="post-title mb-4">{{ post.title }}</h2>
+        <div class="post-content">
+          {{ post.content|linebreaks }}
+        </div>
+      </div>
     </article>
     <div class="mt-4">
-        <a href="{% url 'blog:blog_list' %}" class="btn btn-secondary btn-sm">
-            {% trans "العودة إلى المقالات" %}
-        </a>
+      <a href="{% url 'blog:blog_list' %}" class="btn btn-outline-secondary btn-sm">
+        {% trans "العودة إلى المقالات" %}
+      </a>
     </div>
-</div>
+  </div>
+</section>
+
+<!-- Blog Comments Section -->
+<section id="blog-comments" class="blog-comments section mt-5">
+  <div class="container" data-aos="fade-up">
+
+    <div class="comments-header mb-4">
+      <h3 class="title">{% trans "آراء المجتمع" %}</h3>
+      <div class="comments-stats">
+        <span class="count">{{ post.comments.count }}</span>
+        <span class="label">{% trans "تعليق" %}</span>
+      </div>
+    </div>
+
+    <div class="comments-container">
+      {% for comment in post.comments.all %}
+      <div class="comment-thread mb-3">
+        <div class="comment-box p-3 border rounded">
+          <div class="comment-wrapper d-flex">
+            <div class="comment-content flex-grow-1">
+              <div class="comment-header d-flex justify-content-between align-items-center">
+                <div class="user-info">
+                  <h5 class="mb-0">{{ comment.user }}</h5>
+                  <span class="text-muted small">{{ comment.created_at|timesince }} {% trans "ago" %}</span>
+                </div>
+              </div>
+              <div class="comment-body mt-2">
+                <p>{{ comment.content|linebreaks }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <p class="text-muted">{% trans "لا توجد تعليقات بعد." %}</p>
+      {% endfor %}
+    </div>
+
+    <!-- Comment Form -->
+    <div class="comment-form mt-4">
+      <h4 class="mb-3">{% trans "أضف تعليقك" %}</h4>
+      <form method="post" action="">
+        {% csrf_token %}
+        <div class="mb-3">
+          {{ form.user }}
+        </div>
+        <div class="mb-3">
+          {{ form.content }}
+        </div>
+        <button type="submit" class="btn btn-primary">{% trans "نشر التعليق" %}</button>
+      </form>
+    </div>
+  </div>
+</section>
 {% endblock %}

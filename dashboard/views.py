@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import user_passes_test
-from courses.models import Course
-from .forms import CourseForm, LessonFormSet
+from courses.models import Category, Course, Instructor, User
+from .forms import CategoryForm, CourseForm, InstructorForm, LessonFormSet
 from blog.models import Post
 from blog.forms import PostForm 
 from django.contrib import messages
@@ -17,7 +17,7 @@ def dashboard_home(request):
 @user_passes_test(is_admin)
 def course_list(request):
     courses = Course.objects.all()
-    return render(request, 'dashboard/dashboard_post_list.html', {'courses': courses})
+    return render(request, 'dashboard/course/course_list.html', {'courses': courses})
 
 @user_passes_test(is_admin)
 def add_course(request):
@@ -35,7 +35,7 @@ def add_course(request):
         form = CourseForm()
         formset = LessonFormSet()
 
-    return render(request, 'dashboard/add_course.html', {'form': form, 'formset': formset})
+    return render(request, 'dashboard/course/add_course.html', {'form': form, 'formset': formset})
 
 @user_passes_test(is_admin)
 def edit_course(request, course_id):
@@ -50,8 +50,7 @@ def edit_course(request, course_id):
     else:
         form = CourseForm(instance=course)
         formset = LessonFormSet(instance=course)
-
-    return render(request, 'dashboard/edit_course.html', {'form': form, 'formset': formset, 'course': course})
+    return render(request, 'dashboard/course/edit_course.html', {'form': form, 'formset': formset, 'course': course})
 
 @user_passes_test(is_admin)
 def delete_course(request, course_id):
@@ -60,7 +59,7 @@ def delete_course(request, course_id):
         course.delete()
         messages.success(request, "تم حذف الدورة.")
         return redirect('dashboard:course_list')
-    return render(request, "dashboard/confirm_delete_course.html", {"course": course})
+    return render(request, "dashboard/course/confirm_delete_course.html", {"course": course})
 
 @user_passes_test(is_admin)
 def add_post(request):
@@ -118,3 +117,87 @@ def confirm_bulk_delete(request):
 def post_list(request):
     posts = Post.objects.all()
     return render(request, "dashboard/blog/post_list.html", {"posts": posts})
+
+@user_passes_test(is_admin)
+def instructor_list(request):
+    instructors = Instructor.objects.all()
+    return render(request, 'dashboard/instructor/instructor_list.html', {'instructors': instructors})
+
+@user_passes_test(is_admin)
+def add_instructor(request):
+    if request.method == 'POST':
+        form = InstructorForm(request.POST, request.FILES)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+
+            user = User.objects.create_user(username=username, email=email, password=password)
+
+            instructor = form.save(commit=False)
+            instructor.user = user
+            instructor.save()
+            return redirect('dashboard:instructor_list')
+    else:
+        form = InstructorForm()
+    return render(request, 'dashboard/instructor/instructor_form.html', {'form': form, 'title': 'إضافة مدرب'})
+
+@user_passes_test(is_admin)
+def edit_instructor(request, instructor_id):
+    instructor = get_object_or_404(Instructor, id=instructor_id)
+    if request.method == 'POST':
+        form = InstructorForm(request.POST, request.FILES, instance=instructor)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "تم تعديل بيانات المدرب بنجاح.")
+            return redirect('dashboard:instructor_list')
+    else:
+        form = InstructorForm(instance=instructor)
+    return render(request, 'dashboard/instructor/instructor_form.html', {'form': form, 'title': 'تعديل بيانات مدرب'})
+
+@user_passes_test(is_admin)
+def delete_instructor(request, instructor_id):
+    instructor = get_object_or_404(Instructor, id=instructor_id)
+    if request.method == "POST":
+        instructor.delete()
+        messages.success(request, "تم حذف المدرب.")
+        return redirect("dashboard:instructor_list")
+    return render(request, "dashboard/instructor/delete_instructor.html", {"instructor": instructor})
+
+@user_passes_test(is_admin)
+def category_list(request):
+    categories = Category.objects.all()
+    return render(request, 'dashboard/category/category_list.html', {'categories': categories})
+
+@user_passes_test(is_admin)
+def add_category(request):
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard:category_list')
+    else:
+        form = CategoryForm()
+    return render(request, 'dashboard/category/category_form.html', {'form': form, 'title': 'إضافة تصنيف'})
+
+@user_passes_test(is_admin)
+def edit_category(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
+    if request.method == 'POST':
+        form = CategoryForm(request.POST, request.FILES, instance=category)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "تم تعديل بيانات التصنيف بنجاح.")
+            return redirect('dashboard:category_list')
+    else:
+        form = CategoryForm(instance=category)
+    return render(request, 'dashboard/category/category_form.html', {'form': form, 'title': 'تعديل التصنيف'})
+
+@user_passes_test(is_admin)
+def delete_category(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
+    if request.method == "POST":
+        category.delete()
+        messages.success(request, "تم حذف التصنيف.")
+        return redirect("dashboard:category_list")
+    return render(request, "dashboard/category/delete_category.html", {"category": category})

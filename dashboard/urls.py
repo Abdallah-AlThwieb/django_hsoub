@@ -19,4 +19,16 @@ urlpatterns = [
     path('posts/<int:post_id>/delete/', views.delete_post, name='delete_post'),
     path('posts/bulk-delete/', views.bulk_delete_posts, name='bulk_delete_posts'),
     path('posts/bulk-delete/confirm/', views.confirm_bulk_delete, name='confirm_bulk_delete'),
+
+    # المدربون
+    path('instructors/', views.instructor_list, name='instructor_list'),
+    path('instructors/add/', views.add_instructor, name='add_instructor'),
+    path('instructors/<int:instructor_id>/edit/', views.edit_instructor, name='edit_instructor'),
+    path('instructors/<int:instructor_id>/delete/', views.delete_instructor, name='delete_instructor'),
+
+    # التصنيفات
+    path('categories/', views.category_list, name='category_list'),
+    path('categories/add/', views.add_category, name='add_category'),
+    path('categories/<int:category_id>/edit/', views.edit_category, name='edit_category'),
+    path('categories/<int:category_id>/delete/', views.delete_category, name='delete_category'),
 ]

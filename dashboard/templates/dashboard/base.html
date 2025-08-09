@@ -1,51 +1,128 @@
-{% load i18n %}
+{% load i18n static %}
 {% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
 <head>
-    <meta charset="UTF-8">
-    <title>{% block title %}{% trans "لوحة التحكم" %}{% endblock %}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
-    <style>
-        body { padding-top: 70px; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{% trans "لوحة التحكم" %}{% endblock %}</title>
+
+    <!-- خطوط Google -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Raleway:wght@300;400;500;700;900&family=Ubuntu:wght@300;400;500;700&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+
+<!-- Bootstrap RTL -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+
+<!-- أيقونات Bootstrap -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+<!-- AOS Animation -->
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+<!-- Swiper -->
+<link href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+<!-- ملف CSS الرئيسي -->
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+  <style>
+    body {
+      padding-top: 70px;
+      font-family: {% if LANGUAGE_CODE == 'ar' %}'Cairo', sans-serif{% else %}'Roboto', sans-serif{% endif %};
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    body.dark-mode {
+      background-color: #121212;
+      color: #f0f0f0;
+    }
+
+    .dark-mode .navbar,
+    .dark-mode .card {
+      background-color: #1e1e1e;
+      color: #fff;
+    }
+
+    .dark-mode .nav-link {
+      color: #ddd !important;
+    }
+  </style>
 </head>
+
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'dashboard:home' %}">{% trans "لوحة التحكم" %}</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#dashboardNavbar">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="dashboardNavbar">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'dashboard:course_list' %}">📚 {% trans "الدورات" %}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'dashboard:post_list' %}">📰 {% trans "المقالات" %}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'home_page' %}">🏠 {% trans "الصفحة الرئيسية" %}</a>
-                </li>
-                <li class="nav-item">
-                    <form method="post" action="{% url 'logout' %}" style="display:inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="nav-link btn btn-link text-white" style="padding: 0; border: none;">
-                            🚪 {% trans "تسجيل الخروج" %}
-                        </button>
-                    </form>
-                </li>
-            </ul>
-        </div>
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'dashboard:home' %}">{% trans "لوحة التحكم" %}</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#dashboardNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="dashboardNavbar">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'dashboard:course_list' %}">📚 {% trans "الدورات" %}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'dashboard:post_list' %}">📰 {% trans "المقالات" %}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'dashboard:category_list' %}">🗂️ {% trans "التصنيفات" %}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'dashboard:instructor_list' %}">👨‍🏫 {% trans "المدربون" %}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'home_page' %}">🏠 {% trans "الصفحة الرئيسية" %}</a>
+        </li>
+        <li class="nav-item">
+          <form method="post" action="{% url 'logout' %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="nav-link btn btn-link text-white" style="padding: 0; border: none;">
+              🚪 {% trans "تسجيل الخروج" %}
+            </button>
+          </form>
+        </li>
+        <li class="nav-item">
+          <button onclick="toggleDarkMode()" class="btn btn-outline-light btn-sm ms-2">
+            🌙
+          </button>
+        </li>
+      </ul>
     </div>
+  </div>
 </nav>
 
 <main class="container mt-4">
-    {% block content %}
-    {% endblock %}
+  {% block content %}
+  {% endblock %}
 </main>
 
+<!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/php-email-form/validate.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/purecounter/purecounter_vanilla.js"></script>
+
+<script src="{% static 'js/main.js' %}"></script>
+
+<script>
+  AOS.init();
+
+  function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    localStorage.setItem("dark-mode", document.body.classList.contains('dark-mode'));
+  }
+
+  // Load saved preference
+  window.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem("dark-mode") === "true") {
+      document.body.classList.add('dark-mode');
+    }
+  });
+</script>
+
 </body>
 </html>

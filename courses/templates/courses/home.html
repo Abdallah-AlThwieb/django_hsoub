@@ -3,42 +3,226 @@
 {% load i18n %}
 
 {% block content %}
-<div class="container mt-5">
-    <h2 class="mb-4 text-center">{% trans "مرحباً بك في منصة الدورات التعليمية" %}</h2>
-    <p class="lead text-center mb-5">{% trans "منصة لمتابعة أداء الطلاب ومشاركة الدورات مع المشرفين والطلاب." %}</p>
+{% include "includes/hero.html" %}
 
-    <div class="row mb-5">
-        {% for course in courses %}
-            <div class="col-md-4 mb-4">
-                <div class="card shadow-sm h-100">
-                    {% if course.image %}
-                        <img src="{{ course.image.url }}" class="card-img-top" alt="{{ course.title }}">
-                    {% else %}
-                        <img src="{% static 'default-course.jpg' %}" class="card-img-top" alt="{% trans 'صورة الدورة' %}">
-                    {% endif %}
-                    <div class="card-body">
-                        <h5 class="card-title">{{ course.title }}</h5>
-                        <p class="card-text">{{ course.overview|truncatechars:100 }}</p>
-                        <a href="{% url 'courses:course_detail' course.id %}" class="btn btn-primary">{% trans "عرض الدورة" %}</a>
-                    </div>
-                </div>
-            </div>
-        {% empty %}
-            <div class="col-12 text-center">
-                <p class="text-muted">{% trans "لا توجد دورات متاحة حالياً." %}</p>
-            </div>
-        {% endfor %}
-    </div>
+<div class="pagination-wrapper" data-aos="fade-up" data-aos-delay="300">
+  <nav aria-label="Courses pagination">
+    <ul class="pagination justify-content-center">
 
-    <div class="row justify-content-center mt-5">
-        <div class="col-md-4">
-            <div class="card text-white bg-primary mb-4 shadow-sm h-100">
-                <div class="card-body text-center">
-                    <h5 class="card-title">{% trans "عدد الطلاب" %}</h5>
-                    <p class="card-text display-4">{{ student_count }}</p>
-                </div>
-            </div>
-        </div>
-    </div>
+      {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+            <i class="bi bi-chevron-right"></i>  <!-- لأن RTL -->
+          </a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <a class="page-link" href="#">
+            <i class="bi bi-chevron-right"></i>
+          </a>
+        </li>
+      {% endif %}
+
+      {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+          <li class="page-item active">
+            <a class="page-link" href="#">{{ num }}</a>
+          </li>
+        {% else %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+          </li>
+        {% endif %}
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+            <i class="bi bi-chevron-left"></i>
+          </a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <a class="page-link" href="#">
+            <i class="bi bi-chevron-left"></i>
+          </a>
+        </li>
+      {% endif %}
+
+    </ul>
+  </nav>
 </div>
+
+<!-- قسم المدربين المميزين -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold">{% trans "المدربون المميزون" %}</h2>
+      <p class="text-muted">{% trans "تعرف على نخبة من الخبراء الذين يقدمون أفضل الدورات التعليمية." %}</p>
+    </div>
+    <div class="row">
+      {% for instructor in instructors %}
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm border-0 h-100 text-center">
+          {% if instructor.image %}
+          <img src="{{ instructor.image.url }}" class="card-img-top rounded-circle mx-auto mt-4" style="width: 120px; height: 120px; object-fit: cover;" alt="{{ instructor.name }}">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">{{ instructor.name }}</h5>
+            <p class="card-text text-muted">{{ instructor.bio|truncatewords:20 }}</p>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <div class="col-12">
+        <p class="text-muted text-center">{% trans "لا يوجد مدربون لعرضهم حالياً." %}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- قسم تقييمات المستخدمين -->
+<section class="py-5 bg-light border-top">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold">{% trans "آراء طلابنا" %}</h2>
+      <p class="text-muted">{% trans "ما يقوله الطلاب عن تجربتهم معنا" %}</p>
+    </div>
+    {% if testimonials %}
+    <div class="swiper testimonial-swiper">
+      <div class="swiper-wrapper">
+        {% for testimonial in testimonials %}
+        <div class="swiper-slide">
+          <div class="card shadow-sm border-0 p-4 h-100">
+            <div class="d-flex align-items-center mb-3">
+              {% if testimonial.image %}
+              <img src="{{ testimonial.image.url }}" class="rounded-circle me-3" width="60" height="60" alt="{{ testimonial.name }}">
+              {% else %}
+              <div class="rounded-circle bg-secondary text-white d-flex justify-content-center align-items-center me-3" style="width:60px;height:60px;">
+                <span class="fw-bold">{{ testimonial.name|slice:":1" }}</span>
+              </div>
+              {% endif %}
+              <div>
+                <h5 class="mb-0">{{ testimonial.name }}</h5>
+                <small class="text-muted">{{ testimonial.role }}</small>
+              </div>
+            </div>
+            <p class="mb-2">{{ testimonial.comment }}</p>
+            <div class="text-warning">
+              {% for i in "12345" %}
+                {% if forloop.counter <= testimonial.rating|floatformat:0 %}
+                  <i class="bi bi-star-fill"></i>
+                {% else %}
+                  <i class="bi bi-star"></i>
+                {% endif %}
+              {% endfor %}
+              <span class="text-muted ms-2">{{ testimonial.rating }}/5</span>
+            </div>
+            {% if testimonial.source %}
+            <small class="text-muted d-block mt-2">{% trans "المصدر" %}: {{ testimonial.source }}</small>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <!-- أزرار التنقل -->
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    </div>
+    {% else %}
+      <p class="text-center text-muted">{% trans "لا توجد تقييمات بعد." %}</p>
+    {% endif %}
+  </div>
+</section>
+
+<!-- Recent Blog Posts Section -->
+<section id="recent-blog-posts" class="recent-blog-posts section">
+
+  <div class="container section-title" data-aos="fade-up">
+    <h2>{% trans "أحدث المقالات" %}</h2>
+    <p>{% trans "نص تجريبي عن المقالات المنشورة حديثًا يمكن تعديله لاحقًا حسب محتوى الموقع." %}</p>
+  </div>
+
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+    <div class="row gy-4">
+      {% for post in posts %}
+      <div class="col-lg-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:'2' }}00">
+        <div class="card">
+          <div class="card-top d-flex align-items-center">
+            <span class="author-name">{% trans "بواسطة" %} {{ post.author }}</span>
+            <span class="ms-auto likes"><i class="bi bi-heart"></i> {{ post.likes }}</span>
+          </div>
+          <div class="card-img-wrapper">
+            <img src="{{ post.image.url }}" alt="{% trans 'صورة المقال' %}">
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">
+              <a href="{% url 'blog:blog_detail' post.slug %}">{{ post.title }}</a>
+            </h5>
+            <p class="card-text">{{ post.content }}</p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Cta Section -->
+<section id="cta" class="cta section light-background">
+
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+    <div class="row align-items-center">
+
+      <div class="col-lg-6" data-aos="fade-right" data-aos-delay="200">
+        <div class="cta-content">
+          <h2>{% trans "حوّل مستقبلك مع دورات تعليمية يقودها خبراء" %}</h2>
+          <p>{% trans "انضم إلى آلاف المتعلمين الناجحين الذين تقدموا في مسيرتهم المهنية من خلال منصتنا التعليمية الشاملة عبر الإنترنت." %}</p>
+
+          <div class="features-list">
+            <div class="feature-item" data-aos="fade-up" data-aos-delay="300">
+              <i class="bi bi-check-circle-fill"></i>
+              <span>{% trans "أكثر من 20 مدربًا محترفًا من ذوي الخبرة العملية" %}</span>
+            </div>
+            <div class="feature-item" data-aos="fade-up" data-aos-delay="350">
+              <i class="bi bi-check-circle-fill"></i>
+              <span>{% trans "شهادة إتمام لكل دورة تدريبية" %}</span>
+            </div>
+            <div class="feature-item" data-aos="fade-up" data-aos-delay="400">
+              <i class="bi bi-check-circle-fill"></i>
+              <span>{% trans "إمكانية الوصول إلى المحتوى والمواد التعليمية على مدار الساعة" %}</span>
+            </div>
+            <div class="feature-item" data-aos="fade-up" data-aos-delay="450">
+              <i class="bi bi-check-circle-fill"></i>
+              <span>{% trans "مهام تفاعلية ومشاريع تطبيقية واقعية" %}</span>
+            </div>
+          </div>
+
+          <div class="cta-actions" data-aos="fade-up" data-aos-delay="500">
+            <a href="{% url 'courses:course_list' %}" class="btn btn-primary">{% trans "الدورات" %}</a>
+            <a href="{% url 'login' %}" class="btn btn-outline">{% trans "سجّل الآن" %}</a>
+          </div>
+
+          <div class="stats-row" data-aos="fade-up" data-aos-delay="400">
+            <div class="stat-item">
+              <h3><span data-purecounter-start="0" data-purecounter-end="15000" data-purecounter-duration="2" class="purecounter"></span>+</h3>
+              <p>{% trans "طالب مسجل" %}</p>
+            </div>
+            <div class="stat-item">
+              <h3><span data-purecounter-start="0" data-purecounter-end="150" data-purecounter-duration="2" class="purecounter"></span>+</h3>
+              <p>{% trans "دورة متاحة" %}</p>
+            </div>
+            <div class="stat-item">
+              <h3><span data-purecounter-start="0" data-purecounter-end="98" data-purecounter-duration="2" class="purecounter"></span>%</h3>
+              <p>{% trans "نسبة النجاح" %}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 {% endblock %}

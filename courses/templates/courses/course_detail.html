@@ -3,6 +3,50 @@
 {% load i18n %}
 
 {% block content %}
+<!-- Course Hero -->
+<div class="course-hero" data-aos="fade-up" data-aos-delay="200">
+  <div class="hero-content">
+    <div class="course-badge">
+      <span class="category">{{ course.category.name }}</span>
+      {% if course.level %}
+        <span class="level">{{ course.level }}</span>
+      {% endif %}
+    </div>
+
+    <h1>{{ course.title }}</h1>
+
+    {% if course.description %}
+      <p class="course-subtitle">{{ course.description|truncatechars:160 }}</p>
+    {% endif %}
+
+    {% if course.instructor %}
+      <div class="instructor-card">
+        {% if course.instructor.photo %}
+          <img src="{{ course.instructor.photo.url }}" alt="{{ course.instructor.full_name }}" class="instructor-image">
+        {% endif %}
+        <div class="instructor-details">
+          <h5>{{ course.instructor.full_name }}</h5>
+          <span>{{ course.instructor.specialty }}</span>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="hero-image">
+    {% if course.image %}
+      <img src="{{ course.image.url }}" alt="{{ course.title }}" class="img-fluid">
+    {% endif %}
+
+    <div class="play-overlay">
+      <button class="play-btn">
+        <i class="bi bi-play-fill"></i>
+      </button>
+      <span>{% trans "مشاهدة المقدمة" %}</span>
+    </div>
+  </div>
+</div>
+<!-- End Course Hero -->
+
 <div class="container mt-5">
 
     {% if course.image %}
@@ -14,78 +58,123 @@
     <h2 class="mb-4">{{ course.title }}</h2>
 
     <div class="row">
-        <div class="col-md-8">
-            <div class="card mb-4 shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">{% trans "الوصف" %}</h5>
-                    <p class="card-text">{{ course.description }}</p>
+    <div class="col-md-8">
+        <div class="card mb-4 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">{% trans "الوصف" %}</h5>
+                <p class="card-text">{{ course.description }}</p>
 
-                    <hr>
+                <hr>
 
-                    <div class="row">
-                        <div class="col-md-6">
-                            <p><strong>{% trans "السعر" %}:</strong> {{ course.price }}$</p>
-                            {% if course.duration %}
-                            <p><strong>{% trans "مدة الدورة" %}:</strong> {{ course.duration }}</p>
-                            {% endif %}
-                            {% if course.level %}
-                            <p><strong>{% trans "مستوى الدورة" %}:</strong> {{ course.level }}</p>
-                            {% endif %}
-                        </div>
-                        <div class="col-md-6">
-                            {% if course.prerequisites %}
-                            <p><strong>{% trans "متطلبات الدورة" %}:</strong></p>
-                            <p>{{ course.prerequisites }}</p>
-                            {% endif %}
-                        </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>{% trans "السعر" %}:</strong> {{ course.price }}$</p>
+                        {% if course.duration %}
+                        <p><strong>{% trans "مدة الدورة" %}:</strong> {{ course.duration }}</p>
+                        {% endif %}
+                        {% if course.level %}
+                        <p><strong>{% trans "مستوى الدورة" %}:</strong> {{ course.level }}</p>
+                        {% endif %}
                     </div>
-                </div>
-            </div>
-
-            {% if user.is_authenticated and user.is_superuser or user in course.students.all %}
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title">{% trans "الدروس" %} ({{ course.lessons.count }})</h5>
-                        {% if course.lessons.all %}
-                        <ul class="list-group list-group-flush">
-                            {% for lesson in course.lessons.all %}
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                {{ lesson.title }}
-                                <a href="{% url 'courses:lesson_detail' lesson.id %}" class="btn btn-sm btn-outline-primary">
-                                    {% trans "عرض" %}
-                                </a>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                        {% else %}
-                        <p class="text-muted mt-2">{% trans "لا توجد دروس مضافة لهذه الدورة بعد." %}</p>
+                    <div class="col-md-6">
+                        {% if course.prerequisites %}
+                        <p><strong>{% trans "متطلبات الدورة" %}:</strong></p>
+                        <p>{{ course.prerequisites }}</p>
                         {% endif %}
                     </div>
                 </div>
-            {% endif %}
+            </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="card shadow-sm mb-4">
-                <div class="card-body text-center">
+        {% if user.is_authenticated and user.is_superuser or user in course.students.all %}
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">{% trans "الدروس" %} ({{ course.lessons.count }})</h5>
+                {% if course.lessons.all %}
+                <ul class="list-group list-group-flush">
+                    {% for lesson in course.lessons.all %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ lesson.title }}
+                        <a href="{% url 'courses:lesson_detail' lesson.id %}" class="btn btn-sm btn-outline-primary">
+                            {% trans "عرض" %}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p class="text-muted mt-2">{% trans "لا توجد دروس مضافة لهذه الدورة بعد." %}</p>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="col-md-4">
+
+        <!-- بطاقة الاشتراك المطورة -->
+        <div class="enrollment-card card shadow-sm" data-aos="fade-up" data-aos-delay="200">
+
+            <!-- السعر وعدد الطلاب -->
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <div class="price-display">
+                    {% if course.price > 0 %}
+                        {% if course.old_price and course.old_price > course.price %}
+                            <span class="current-price">${{ course.price }}</span>
+                            <span class="original-price text-muted text-decoration-line-through">${{ course.old_price }}</span>
+                            <span class="discount text-success">
+                                {% widthratio course.price course.old_price 100 as percent %}
+                                {{ 100|add:"-"|add:percent }}% OFF
+                            </span>
+                        {% else %}
+                            <span class="current-price">${{ course.price }}</span>
+                        {% endif %}
+                    {% endif %}
+                </div>
+
+                <div class="enrollment-count text-muted">
+                    <i class="bi bi-people"></i>
+                    <span>{{ course.students.count }} {% trans "طالب مسجل" %}</span>
+                </div>
+            </div>
+
+            <!-- تفاصيل ومميزات -->
+            <div class="card-body">
+                <div class="course-highlights mb-3">
+                    {% if course.duration %}
+                    <div class="highlight-item"><i class="bi bi-clock-history"></i> <span>{{ course.duration }}</span></div>
+                    {% endif %}
+                    <div class="highlight-item"><i class="bi bi-infinity"></i> <span>{% trans "وصول مدى الحياة" %}</span></div>
+                    <div class="highlight-item"><i class="bi bi-phone"></i> <span>{% trans "متاح على الهاتف" %}</span></div>
+                </div>
+
+                <!-- أزرار الاشتراك -->
+                <div class="action-buttons mb-3">
                     {% if user.is_authenticated %}
                         {% if user.is_superuser or user in course.students.all %}
                             <div class="alert alert-success mb-0">
                                 ✅ {% trans "أنت مسجل في هذه الدورة" %}
                             </div>
                         {% else %}
-                            <a href="{% url 'courses:buy_course' course.id %}" class="btn btn-success w-100">
+                            <a href="{% url 'courses:buy_course' course.id %}" class="btn btn-primary w-100">
                                 {% trans "اشترك الآن" %}
                             </a>
                         {% endif %}
                     {% else %}
-                        <a href="{% url 'login' %}" class="btn btn-warning w-100">
+                        <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-warning w-100">
                             {% trans "سجّل الدخول للاشتراك" %}
                         </a>
                     {% endif %}
                 </div>
+
+                <!-- الضمان -->
+                <div class="guarantee text-center text-muted small">
+                    <i class="bi bi-shield-check"></i>
+                    {% trans "ضمان استرداد الأموال خلال 30 يومًا" %}
+                </div>
             </div>
         </div>
+        <!-- نهاية بطاقة الاشتراك -->  
     </div>
+</div>
 </div>
 {% endblock %}

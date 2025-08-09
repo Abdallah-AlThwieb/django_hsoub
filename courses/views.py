@@ -1,16 +1,18 @@
 import os
 import stripe
 from django.conf import settings
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.db.models import Count
+from django.db.models import Q, Count
 from django.contrib.auth import get_user_model
 from django.contrib import messages
-from .models import Course, Lesson, Comment
-from .forms import CommentForm
+from django.core.paginator import Paginator
+from blog.models import Post
+from .models import Category, Course, Instructor, Lesson, Testimonial
+from .forms import CommentForm, InstructorProfileForm
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -18,17 +20,90 @@ stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 
 def home_page(request):
     User = get_user_model()
+    query = request.GET.get("q", "").strip()
     student_count = User.objects.annotate(course_count=Count('courses')).filter(course_count__gt=0).count()
+    categories = Category.objects.annotate(course_count=Count('courses'))
     courses = Course.objects.filter(is_published=True)
+    latest_posts = Post.objects.order_by('-created_at')[:3]
+    instructors = Instructor.objects.all()[:3]
+    testimonials = Testimonial.objects.all()
+
+    paginator = Paginator(courses, 6)  
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    if query:
+        courses = courses.filter(
+            Q(title__icontains=query) | Q(description__icontains=query)
+        )
 
     return render(request, 'courses/home.html', {
         'student_count': student_count,
         'courses': courses,
+        'latest_posts': latest_posts,
+        'categories': categories,
+        'categories': categories,
+        'instructors': instructors,
+        'testimonials': testimonials,
+        'page_obj': page_obj,
+        'query': query,
     })
 
 def course_list(request):
     courses = Course.objects.filter(is_published=True)  
-    return render(request, 'courses/course_list.html', {'courses': courses})
+    query = request.GET.get("q", "").strip()
+    sort_option = request.GET.get('sort')
+    category = request.GET.get('category')
+    level = request.GET.get('level')
+    duration = request.GET.get('duration')
+    price_filter = request.GET.get('price')
+
+    paginator = Paginator(courses, 6)  
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    if category:
+        courses = courses.filter(category__name=category)
+
+    if level:
+        courses = courses.filter(level__iexact=level)
+
+    if duration:
+        courses = courses.filter(duration__icontains=duration)
+
+    if price_filter == 'free':
+        courses = courses.filter(price=0)
+    elif price_filter == 'paid':
+        courses = courses.filter(price__gt=0)
+        
+    if query:
+        courses = courses.filter(
+        Q(title__icontains=query) | Q(description__icontains=query)
+    )
+    
+    if sort_option == 'newest':
+        courses = courses.order_by('-created_at')
+    elif sort_option == 'price_low':
+        courses = courses.order_by('price')
+    elif sort_option == 'price_high':
+        courses = courses.order_by('-price')
+    elif sort_option == 'duration':
+        courses = courses.order_by('duration')
+    elif sort_option == 'popular':
+        courses = courses.annotate(student_count=Count('students')).order_by('-student_count')
+
+    categories = Category.objects.all()
+    levels = Course.objects.exclude(level__isnull=True).exclude(level__exact="").values_list('level', flat=True).distinct()
+    durations = Course.objects.exclude(duration__isnull=True).exclude(duration__exact="").values_list('duration', flat=True).distinct()
+
+    return render(request, 'courses/course_list.html', {
+        'courses': courses,
+        'categories': categories,
+        'levels': levels,
+        'durations': durations,
+        'sort_option': sort_option,
+        'page_obj': page_obj,
+        })
 
 def course_detail(request, course_id):
     course = get_object_or_404(Course, id=course_id)
@@ -75,6 +150,34 @@ def lesson_detail(request, pk):
         "comments": comments,
         "comment_form": comment_form
     })
+
+@login_required
+def instructors_view(request):
+    instructors = Instructor.objects.all()
+    return render(request, 'courses/instructors.html', {'instructors': instructors})
+
+@login_required
+def instructor_profile(request, instructor_id):
+    instructor = get_object_or_404(Instructor, id=instructor_id)
+    return render(request, 'courses/instructor_profile.html', {
+        'instructor': instructor
+    })
+
+@login_required
+def edit_instructor_profile(request, instructor_id):
+    instructor = get_object_or_404(Instructor, id=instructor_id)
+    if request.user != instructor.user and not request.user.is_superuser:
+        return HttpResponseForbidden("غير مسموح لك بتعديل هذا الملف")
+    if request.method == 'POST':
+        form = InstructorProfileForm(request.POST, request.FILES, instance=instructor)
+        if form.is_valid():
+            form.save()
+            return redirect('courses:instructor_profile', instructor_id=instructor.id)
+        else:
+            print(form.errors)
+    else:
+        form = InstructorProfileForm(instance=instructor)
+    return render(request, 'courses/edit_profile.html', {'form': form})
 
 @login_required
 def create_checkout_session(request, course_id):

@@ -1,38 +1,114 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load static %}
 
 {% block title %}{% trans "المقالات" %}{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <h1 class="mb-4">{% trans "المقالات" %}</h1>
+<!-- Blog Section -->
+<section id="blog-hero" class="blog-hero section">
+  <div class="container mt-5" data-aos="fade-up" data-aos-delay="100">
 
-    {% for post in posts %}
-    <div class="card mb-3 shadow-sm">
-        <div class="row g-0">
-            {% if post.image %}
-                <div class="col-md-4">
-                    <img src="{{ post.image.url }}" class="img-fluid rounded-start" alt="{{ post.title }}">
-                </div>
-            {% endif %}
-            <div class="{% if post.image %}col-md-8{% else %}col-md-12{% endif %}">
-                <div class="card-body">
-                    <h3 class="card-title">
-                        <a href="{% url 'blog:blog_detail' slug=post.slug %}">{{ post.title }}</a>
-                    </h3>
-                    <p class="text-muted small">
-                        {% trans "نشر بتاريخ" %} {{ post.created_at|date:"Y/m/d" }}
-                    </p>
-                    <p class="card-text">{{ post.content|truncatewords:30 }}</p>
-                    <a href="{% url 'blog:blog_detail' slug=post.slug %}" class="btn btn-outline-primary btn-sm">
-                        {% trans "قراءة المزيد" %}
-                    </a>
-                </div>
-            </div>
+    <h1 class="mb-4 text-center">{% trans "المقالات" %}</h1>
+
+    <div class="blog-grid">
+
+      {% with featured_post=posts.first %}
+      {% if featured_post %}
+      <!-- Featured Post -->
+      <article class="blog-item featured mb-4" data-aos="fade-up">
+        {% if featured_post.image %}
+        <img src="{{ featured_post.image.url }}" alt="{{ featured_post.title }}" class="img-fluid rounded shadow-sm">
+        {% else %}
+        <img src="{% static 'img/blog/default.webp' %}" alt="No image" class="img-fluid rounded shadow-sm">
+        {% endif %}
+        <div class="blog-content p-3">
+          <div class="post-meta mb-2">
+            <span class="date">{{ featured_post.created_at|date:"Y/m/d" }}</span>
+            <span class="category ms-3">{{ featured_post.author.get_full_name|default:featured_post.author.username }}</span>
+          </div>
+          <h2 class="post-title">
+            <a href="{% url 'blog:blog_detail' slug=featured_post.slug %}">
+              {{ featured_post.title }}
+            </a>
+          </h2>
+          <p class="card-text mt-2">{{ featured_post.content|truncatewords:30 }}</p>
+          <a href="{% url 'blog:blog_detail' slug=featured_post.slug %}" class="btn btn-primary btn-sm mt-2">{% trans "قراءة المزيد" %}</a>
         </div>
+      </article>
+      {% endif %}
+      {% endwith %}
+
+      <!-- Regular Posts -->
+      {% for post in posts|slice:"1:" %}
+      <article class="blog-item card mb-4 shadow-sm" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00">
+        <div class="row g-0">
+          {% if post.image %}
+          <div class="col-md-4">
+            <img src="{{ post.image.url }}" alt="{{ post.title }}" class="img-fluid rounded-start h-100 w-100 object-fit-cover">
+          </div>
+          {% endif %}
+          <div class="{% if post.image %}col-md-8{% else %}col-md-12{% endif %}">
+            <div class="card-body">
+              <div class="post-meta mb-2">
+                <span class="date text-muted small">{{ post.created_at|date:"Y/m/d" }}</span>
+                <span class="category ms-3 text-muted small">{{ post.author.get_full_name|default:post.author.username }}</span>
+              </div>
+              <h3 class="card-title">
+                <a href="{% url 'blog:blog_detail' slug=post.slug %}">
+                  {{ post.title }}
+                </a>
+              </h3>
+              <p class="card-text">{{ post.content|truncatewords:30 }}</p>
+              <a href="{% url 'blog:blog_detail' slug=post.slug %}" class="btn btn-outline-primary btn-sm">{% trans "قراءة المزيد" %}</a>
+            </div>
+          </div>
+        </div>
+      </article>
+      {% empty %}
+      <p class="text-muted text-center">{% trans "لا توجد مقالات حالياً." %}</p>
+      {% endfor %}
     </div>
-    {% empty %}
-    <p class="text-muted">{% trans "لا توجد مقالات حالياً." %}</p>
-    {% endfor %}
-</div>
+  </div>
+</section>
+
+<!-- Pagination Section -->
+<section id="pagination-2" class="pagination-2 section">
+  <div class="container">
+    <nav class="d-flex justify-content-center" aria-label="Page navigation">
+      <ul class="pagination">
+        {% if posts.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ posts.previous_page_number }}" aria-label="{% trans 'Previous page' %}">
+            <i class="bi bi-arrow-left"></i>
+            <span class="d-none d-sm-inline">{% trans "السابق" %}</span>
+          </a>
+        </li>
+        {% endif %}
+
+        {% for num in posts.paginator.page_range %}
+          {% if posts.number == num %}
+            <li class="page-item active"><a class="page-link" href="#">{{ num }}</a></li>
+          {% elif num >= posts.number|add:'-2' and num <= posts.number|add:'2' %}
+            <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+          {% elif forloop.first or forloop.last %}
+            <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+          {% elif forloop.counter == 3 or forloop.counter == posts.paginator.num_pages|add:'-2' %}
+            <li class="page-item disabled"><span class="page-link">…</span></li>
+          {% endif %}
+        {% endfor %}
+
+        {% if posts.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ posts.next_page_number }}" aria-label="{% trans 'Next page' %}">
+            <span class="d-none d-sm-inline">{% trans "التالي" %}</span>
+            <i class="bi bi-arrow-right"></i>
+          </a>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+</section>
+
 {% endblock %}

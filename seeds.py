@@ -10,9 +10,10 @@ from faker import Faker
 from django.utils.text import slugify
 from django.utils import timezone
 from datetime import timedelta
-from blog.models import Post 
+from blog.models import Post
 from django.contrib.auth import get_user_model
 from django.core.files.base import ContentFile
+from django.db import IntegrityError, transaction
 
 fake = Faker('ar_JO')
 
@@ -20,7 +21,23 @@ fake = Faker('ar_JO')
 NUM_ARTICLES = 30
 
 User = get_user_model()
+# حاول إيجاد مشرف أولًا، ثم أي مستخدم، وإذا لم يوجد حاول إنشاء مستخدم بسيط
 author = User.objects.filter(is_superuser=True).first()
+if not author:
+    author = User.objects.filter(is_staff=True).first()
+if not author:
+    author = User.objects.first()
+
+if not author:
+    try:
+        # نحاول إنشاء مستخدم بسيط كحل احتياطي (قد يختلف توقيع create_user حسب موديل المستخدم لديك)
+        author = User.objects.create_user(username='seed_admin', email='seed@example.com', password='password')
+        print("Created seed user 'seed_admin' with password 'password'. Please change credentials if needed.")
+    except Exception as e:
+        raise RuntimeError(
+            "لم يتم العثور على أي مستخدم في قاعدة البيانات، وفشل إنشاء مستخدم احتياطي أوتوماتيكيًا. "
+            "يرجى إنشاء مستخدم/مشرف يدويًا قبل تشغيل seeds.py."
+        ) from e
 
 titles = [
     "أهمية تعلم البرمجة للأطفال",
@@ -91,20 +108,41 @@ paragraphs = [
     "التقييم الذاتي بعد كل فترة تعلم يمنحك رؤية أوضح لمستواك ويحفزك على التقدم."
 ]
 
+def get_unique_slug(model, base_text):
+    """
+    يرجع slug فريد مبنيًا على base_text.
+    إذا كان الـ slug موجودًا بالفعل في الجدول، يضيف عدادًا (-1, -2, ...) حتى يصبح فريدًا.
+    """
+    base_slug = slugify(base_text)
+    if not base_slug:
+        # في حال slugify أعاد سلسلة فارغة (نادر) نستخدم timestamp كقاعدة
+        base_slug = slugify(str(timezone.now().timestamp()))
+    slug = base_slug
+    counter = 1
+    while model.objects.filter(slug=slug).exists():
+        slug = f"{base_slug}-{counter}"
+        counter += 1
+    return slug
+
+created_count = 0
+
 for i in range(NUM_ARTICLES):
     title = random.choice(titles)
-    
-    slug = slugify(f"{title}-{random.randint(1000, 9999)}")
+    # نستخدم العنوان كأساس للـ slug (الدالة ستجعلها فريدة إذا لزم)
+    slug = get_unique_slug(Post, title)
 
     content = "\n\n".join(random.sample(paragraphs, k=5))
-
     created_at = timezone.now() - timedelta(days=random.randint(1, 365))
 
     image_url = f"https://picsum.photos/800/400?random={random.randint(1, 10000)}"
-    response = requests.get(image_url)
+    try:
+        response = requests.get(image_url, timeout=10)
+    except Exception as e:
+        response = None
+        print(f"Warning: failed to download image for '{title}': {e}")
+
     image_name = f"seed_{slug}_{i}.jpg"
 
-    # إنشاء المقال
     post = Post(
         title=title,
         slug=slug,
@@ -115,9 +153,21 @@ for i in range(NUM_ARTICLES):
         is_published=True
     )
 
-    if response.status_code == 200:
-        post.image.save(image_name, ContentFile(response.content), save=False)
+    if response and getattr(response, "status_code", None) == 200:
+        try:
+            post.image.save(image_name, ContentFile(response.content), save=False)
+        except Exception as e:
+            print(f"Warning: failed to attach image for post '{title}': {e}")
 
-    post.save()
+    try:
+        with transaction.atomic():
+            post.save()
+        created_count += 1
+        print(f"Created post: {title} ({slug})")
+    except IntegrityError as e:
+        # هذا يجب أن يتجنّب تكرار الـ slug، لكنه يبقى احتاطيًا
+        print(f"Skipping duplicate (IntegrityError) for '{title}' slug='{slug}': {e}")
+    except Exception as e:
+        print(f"Error creating post '{title}': {e}")
 
-print(f"✅ تم إنشاء {NUM_ARTICLES} مقالات عربية بصور بنجاح.")
+print(f"✅ تم إنشاء {created_count} من أصل {NUM_ARTICLES} مقالات بنجاح.")

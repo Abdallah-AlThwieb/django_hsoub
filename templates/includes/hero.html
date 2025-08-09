@@ -1,0 +1,108 @@
+{% load i18n static %}
+<section id="courses-hero" class="courses-hero section light-background py-5">
+
+  <div class="hero-content">
+    <div class="container">
+      <div class="row align-items-center">
+
+        <!-- النصوص -->
+        <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+          <div class="hero-text">
+            <h1>{% trans "حوّل مستقبلك مع دورات تعليمية بإشراف خبراء" %}</h1>
+            <p>{% trans "اكتشف آلاف الدورات عالية الجودة المصممة من قبل محترفين. تعلّم بالوتيرة التي تناسبك، واكتسب مهارات مطلوبة، وارتقِ بمسيرتك المهنية من أي مكان في العالم." %}</p>
+
+        <!-- نموذج البحث -->
+         <div class="container my-5">
+            <form method="get" action="{% url 'courses:course_list' %}">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="input-group input-group-lg shadow-sm">
+                            <input type="text" name="q" class="form-control" placeholder="{% trans 'ابحث عن دورة...' %}" aria-label="{% trans 'بحث' %}">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="bi bi-search"></i> {% trans "بحث" %}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+            <!-- إحصائيات -->
+            <div class="hero-stats d-flex gap-3 flex-wrap">
+              <div class="stat-item text-center">
+                <span class="number purecounter" data-purecounter-start="0" data-purecounter-end="{{ student_count|default:50000 }}" data-purecounter-duration="2"></span>
+                <span class="label">{% trans "عدد الطلاب" %}</span>
+              </div>
+              <div class="stat-item text-center">
+                <span class="number purecounter" data-purecounter-start="0" data-purecounter-end="{{ course_count|default:1200 }}" data-purecounter-duration="2"></span>
+                <span class="label">{% trans "الدورات" %}</span>
+              </div>
+              <div class="stat-item text-center">
+                <span class="number purecounter" data-purecounter-start="0" data-purecounter-end="{{ success_rate|default:98 }}" data-purecounter-duration="2"></span>
+                <span class="label">{% trans "نسبة النجاح %" %}</span>
+              </div>
+            </div>
+
+            <!-- الأزرار -->
+            <div class="hero-buttons mt-4">
+              <a href="{% url 'courses:course_list' %}" class="btn btn-primary">{% trans "تصفح الدورات" %}</a>
+              <a href="#about" class="btn btn-outline-secondary">{% trans "المزيد عن الأكاديمية" %}</a>
+            </div>
+
+            <!-- المميزات -->
+            <div class="hero-features mt-4 d-flex gap-3 flex-wrap">
+              <div class="feature text-center">
+                <i class="bi bi-shield-check fs-3"></i>
+                <span>{% trans "برامج معتمدة" %}</span>
+              </div>
+              <div class="feature text-center">
+                <i class="bi bi-clock fs-3"></i>
+                <span>{% trans "وصول مدى الحياة" %}</span>
+              </div>
+              <div class="feature text-center">
+                <i class="bi bi-people fs-3"></i>
+                <span>{% trans "خبراء تعليم" %}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- الصورة والبطاقات العائمة -->
+        <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+          <div class="hero-image position-relative">
+            <div class="main-image text-center">
+              {% if courses and courses.0.image %}
+                <img src="{{ courses.0.image.url }}" alt="{{ courses.0.title }}" class="img-fluid rounded shadow-sm">
+              {% else %}
+                <img src="{% static 'img/default-course.jpg' %}" alt="{% trans 'Default Course' %}" class="img-fluid rounded shadow-sm">
+              {% endif %}
+            </div>
+
+            <div class="floating-cards position-absolute top-0 start-50 translate-middle-x d-flex flex-column gap-3">
+              {% for course in courses|slice:":3" %}
+                <div class="course-card card shadow-sm p-2" data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:2 }}00">
+                  <div class="card-icon text-center">
+                    <i class="bi bi-book fs-4"></i>
+                  </div>
+                  <div class="card-content text-center">
+                    <h6>{{ course.title }}</h6>
+                    <span>{{ course.students.count }} {% trans "طالب" %}</span>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- الخلفية الزخرفية -->
+  <div class="hero-background position-relative">
+    <div class="bg-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+    </div>
+  </div>
+
+</section>

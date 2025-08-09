@@ -1,6 +1,6 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
-from .models import Comment, Course, Lesson
+from .models import Comment, Course, Instructor, Lesson
 from django.forms import inlineformset_factory
 
 
@@ -18,7 +18,8 @@ class CommentForm(forms.ModelForm):
 class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
-        fields = ['title', 'description', 'price', 'is_published','duration', 'level', 'prerequisites']
+        fields = ['title', 'description', 'price', 'is_published','duration', 'level', 'prerequisites', 
+        'image', 'instructor', 'category']
 
 
 class LessonForm(forms.ModelForm):
@@ -32,3 +33,12 @@ LessonFormSet = inlineformset_factory(
     extra=1, 
     can_delete=True 
 )
+
+
+class InstructorProfileForm(forms.ModelForm):
+    class Meta:
+        model = Instructor
+        fields = [
+            'full_name', 'specialty', 'bio', 'photo', 'email',
+            'linkedin', 'twitter', 
+        ]

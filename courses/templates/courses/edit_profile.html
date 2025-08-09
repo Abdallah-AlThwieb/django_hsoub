@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load i18n static %}
+
+{% block title %}{% trans "تعديل الملف الشخصي" %}{% endblock %}
+
+{% block content %}
+<div class="container mt-5 text-end" dir="rtl">
+    <div class="card shadow-sm p-4">
+        <h2 class="mb-4">{% trans "تعديل الملف الشخصي" %}</h2>
+
+        <form method="post" enctype="multipart/form-data" class="row g-3">
+            {% csrf_token %}
+            <div class="col-md-6">
+                <label for="id_full_name" class="form-label">{% trans "الاسم الكامل" %}</label>
+                {{ form.full_name }}
+            </div>
+
+            <div class="col-md-6">
+                <label for="id_email" class="form-label">{% trans "البريد الإلكتروني" %}</label>
+                {{ form.email }}
+            </div>
+
+            <div class="col-md-6">
+                <label for="id_specialty" class="form-label">{% trans "التخصص" %}</label>
+                {{ form.specialty }}
+            </div>
+
+            <div class="col-md-12">
+                <label for="id_description" class="form-label">{% trans "نبذة تعريفية" %}</label>
+                {{ form.bio }}
+            </div>
+
+            <div class="col-md-6">
+                <label for="id_linkedin" class="form-label">LinkedIn</label>
+                {{ form.linkedin }}
+            </div>
+
+            <div class="col-md-6">
+                <label for="id_twitter" class="form-label">Twitter</label>
+                {{ form.twitter }}
+            </div>
+
+            <div class="col-md-6">
+                <label for="id_image" class="form-label">{% trans "الصورة الشخصية" %}</label>
+                {{ form.photo }}
+            </div>
+
+            <div class="col-12">
+                <button type="submit" class="btn btn-success">{% trans "حفظ التعديلات" %}</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
