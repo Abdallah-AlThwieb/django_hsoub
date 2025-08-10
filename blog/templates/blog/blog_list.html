@@ -19,8 +19,6 @@
       <article class="blog-item featured mb-4" data-aos="fade-up">
         {% if featured_post.image %}
         <img src="{{ featured_post.image.url }}" alt="{{ featured_post.title }}" class="img-fluid rounded shadow-sm">
-        {% else %}
-        <img src="{% static 'img/blog/default.webp' %}" alt="No image" class="img-fluid rounded shadow-sm">
         {% endif %}
         <div class="blog-content p-3">
           <div class="post-meta mb-2">

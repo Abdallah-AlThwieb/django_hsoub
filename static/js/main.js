@@ -151,5 +151,42 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-document.documentElement.setAttribute("data-theme", "dark"); // للوضع الليلي
-document.documentElement.removeAttribute("data-theme"); // للوضع النهاري
+AOS.init();
+
+function toggleDarkMode() {
+  document.body.classList.toggle('dark-mode');
+  localStorage.setItem("dark-mode", document.body.classList.contains('dark-mode'));
+}
+
+// Load saved preference
+window.addEventListener('DOMContentLoaded', () => {
+  if (localStorage.getItem("dark-mode") === "true") {
+    document.body.classList.add('dark-mode');
+  }
+});
+
+const toggleBtn = document.getElementById('toggle-dark-mode');
+
+function setDarkMode(enabled) {
+  if (enabled) {
+    document.body.classList.add('dark-mode');
+    localStorage.setItem('darkMode', 'enabled');
+  } else {
+    document.body.classList.remove('dark-mode');
+    localStorage.setItem('darkMode', 'disabled');
+  }
+}
+
+// تحقق من حالة الوضع الليلي المحفوظة عند تحميل الصفحة
+window.addEventListener('DOMContentLoaded', () => {
+  const darkModeStatus = localStorage.getItem('darkMode');
+  if (darkModeStatus === 'enabled') {
+    setDarkMode(true);
+  }
+});
+
+// عند الضغط على الزر
+toggleBtn.addEventListener('click', () => {
+  const isDark = document.body.classList.contains('dark-mode');
+  setDarkMode(!isDark);
+});

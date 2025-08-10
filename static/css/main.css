@@ -7,27 +7,6 @@
   --nav-font: "Ubuntu",  sans-serif;
 }
 
-/* Nav Menu Colors - The following color variables are used specifically for the navigation menu. They are separate from the global colors to allow for more customization options */
-:root {
-  --nav-color: rgba(255, 255, 255, 0.7);  /* The default color of the main navmenu links */
-  --nav-hover-color: #ffffff; /* Applied to main navmenu links when they are hovered over or active */
-  --nav-mobile-background-color: #ffffff; /* Used as the background color for mobile navigation menu */
-  --nav-dropdown-background-color: #ffffff; /* Used as the background color for dropdown items that appear when hovering over primary navigation items */
-  --nav-dropdown-color: #394450; /* Used for navigation links of the dropdown items in the navigation menu. */
-  --nav-dropdown-hover-color: #666299; /* Similar to --nav-hover-color, this color is applied to dropdown navigation links when they are hovered over. */
-}
-
-/* Color Presets - These classes override global colors when applied to any section or element, providing reuse of the sam color scheme. */
-
-.accent-background {
-  --background-color: #136ad5;
-  --default-color: #ffffff;
-  --heading-color: #ffffff;
-  --accent-color: #acd0fc;
-  --surface-color: #4188de;
-  --contrast-color: #ffffff;
-}
-
 /* Smooth scroll */
 :root {
   scroll-behavior: smooth;
@@ -7977,47 +7956,84 @@ body.dark-mode {
     transform: scale(1);
 }
 
-:root {
-  /* Day Mode Colors */
-  --background-color: #a5c0d7 !important;
-  --default-color: #666299 !important;
-  --heading-color: #666299 !important;
-  --accent-color: #666299 !important;
-  --surface-color: #d7d1d1 !important;
-  --contrast-color: #ffffff !important;
-}
-
-/* Dark Mode */
-[data-theme="dark"] {
-  --background-color: #121212 !important;
-  --default-color: #e0e0e0 !important;
-  --heading-color: #ffffff !important;
-  --accent-color: #64b5f6 !important;
-  --surface-color: #1e1e1e !important;
-  --contrast-color: #000000 !important;
-}
-
-/* Apply colors to main elements */
+/* الوضع العادي (الافتراضي) */
 body {
-  background-color: var(--background-color) !important;
-  color: var(--default-color) !important;
+  background-color: #ffffff;
+  color: #222222;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  color: var(--heading-color) !important;
+/* Navbar */
+.navbar {
+  background-color: #f5f5f5;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.3s ease;
 }
 
-a, button {
-  color: var(--accent-color) !important;
+.navbar a {
+  color: #222222;
+  text-decoration: none;
+  margin: 0 10px;
+  font-weight: bold;
 }
 
-button, .btn, input[type="submit"] {
-  background-color: var(--accent-color) !important;
-  color: var(--contrast-color) !important;
-  border: none !important;
+/* Hero Section */
+.hero {
+  background-color: #e0e0e0;
+  padding: 80px 30px;
+  text-align: center;
+  transition: background-color 0.3s ease;
 }
 
-.card, .box, .section, .container {
-  background-color: var(--surface-color) !important;
-  color: var(--default-color) !important;
+/* Content */
+.content {
+  padding: 30px;
+  background-color: #fafafa;
+  transition: background-color 0.3s ease;
+}
+
+/* Footer */
+.footer {
+  background-color: #f5f5f5;
+  text-align: center;
+  padding: 20px 30px;
+  transition: background-color 0.3s ease;
+}
+
+/* --- الوضع الليلي --- */
+body.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+body.dark-mode .navbar {
+  background-color: #1f1f1f;
+}
+
+body.dark-mode .navbar a {
+  color: #343030;
+}
+
+body.dark-mode .hero {
+  background-color: #242424;
+}
+
+body.dark-mode .content {
+  background-color: #1e1e1e;
+}
+
+body.dark-mode .footer {
+  background-color: #1f1f1f;
+}
+
+body {
+  padding-top: 70px;
+  font-family: 'Cairo', sans-serif; /* أو حسب اللغة */
+  transition: background-color 0.3s, color 0.3s;
 }

@@ -1,5 +1,5 @@
 {% load i18n static %}
-<section id="courses-hero" class="courses-hero section light-background py-5">
+<section id="courses-hero" class="courses-hero section py-5">
 
   <div class="hero-content">
     <div class="container">
@@ -73,8 +73,6 @@
             <div class="main-image text-center">
               {% if courses and courses.0.image %}
                 <img src="{{ courses.0.image.url }}" alt="{{ courses.0.title }}" class="img-fluid rounded shadow-sm">
-              {% else %}
-                <img src="{% static 'img/default-course.jpg' %}" alt="{% trans 'Default Course' %}" class="img-fluid rounded shadow-sm">
               {% endif %}
             </div>
 

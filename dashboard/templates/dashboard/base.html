@@ -26,29 +26,6 @@
 
 <!-- ملف CSS الرئيسي -->
 <link rel="stylesheet" href="{% static 'css/main.css' %}">
-
-  <style>
-    body {
-      padding-top: 70px;
-      font-family: {% if LANGUAGE_CODE == 'ar' %}'Cairo', sans-serif{% else %}'Roboto', sans-serif{% endif %};
-      transition: background-color 0.3s, color 0.3s;
-    }
-
-    body.dark-mode {
-      background-color: #121212;
-      color: #f0f0f0;
-    }
-
-    .dark-mode .navbar,
-    .dark-mode .card {
-      background-color: #1e1e1e;
-      color: #fff;
-    }
-
-    .dark-mode .nav-link {
-      color: #ddd !important;
-    }
-  </style>
 </head>
 
 <body>

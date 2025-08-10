@@ -11,7 +11,7 @@
     {% include "includes/navbar.html" %}
 
     <!-- زر البدء -->
-    <a class="btn-getstarted" href="#courses">
+    <a class="btn-getstarted" href="{% url 'courses:course_list' %}">
       {% trans "ابدأ الآن" %}
     </a>
 
