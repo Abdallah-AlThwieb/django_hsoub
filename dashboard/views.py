@@ -132,15 +132,24 @@ def add_instructor(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
 
-            user = User.objects.create_user(username=username, email=email, password=password)
-
-            instructor = form.save(commit=False)
-            instructor.user = user
-            instructor.save()
-            return redirect('dashboard:instructor_list')
+            if User.objects.filter(username=username).exists():
+                form.add_error('username', 'اسم المستخدم موجود بالفعل.')
+            elif User.objects.filter(email=email).exists():
+                form.add_error('email', 'البريد الإلكتروني مستخدم بالفعل.')
+            else:
+                user = User.objects.create_user(username=username, email=email, password=password)
+                instructor = form.save(commit=False)
+                instructor.user = user
+                instructor.save()
+                messages.success(request, 'تمت إضافة المدرب بنجاح.')
+                return redirect('dashboard:instructor_list')
     else:
         form = InstructorForm()
-    return render(request, 'dashboard/instructor/instructor_form.html', {'form': form, 'title': 'إضافة مدرب'})
+
+    return render(request, 'dashboard/instructor/instructor_form.html', {
+        'form': form,
+        'title': 'إضافة مدرب'
+    })
 
 @user_passes_test(is_admin)
 def edit_instructor(request, instructor_id):
