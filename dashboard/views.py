@@ -157,12 +157,35 @@ def edit_instructor(request, instructor_id):
     if request.method == 'POST':
         form = InstructorForm(request.POST, request.FILES, instance=instructor)
         if form.is_valid():
-            form.save()
+            instructor = form.save(commit=False)
+            user = instructor.user
+            
+            if form.cleaned_data.get('username'):
+                user.username = form.cleaned_data['username']
+    
+            if form.cleaned_data.get('email'):
+                user.email = form.cleaned_data['email']
+    
+            if form.cleaned_data.get('password'):
+                user.set_password(form.cleaned_data['password'])
+    
+            user.save()
+            instructor.save()
+
             messages.success(request, "تم تعديل بيانات المدرب بنجاح.")
             return redirect('dashboard:instructor_list')
     else:
-        form = InstructorForm(instance=instructor)
-    return render(request, 'dashboard/instructor/instructor_form.html', {'form': form, 'title': 'تعديل بيانات مدرب'})
+        # ملء الحقول من User عند العرض
+        initial_data = {
+            'username': instructor.user.username,
+            'email': instructor.user.email,
+        }
+        form = InstructorForm(instance=instructor, initial=initial_data)
+
+    return render(request, 'dashboard/instructor/instructor_form.html', {
+        'form': form,
+        'title': 'تعديل بيانات مدرب'
+    })
 
 @user_passes_test(is_admin)
 def delete_instructor(request, instructor_id):

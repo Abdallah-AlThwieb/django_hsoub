@@ -1,5 +1,5 @@
 from django import forms
-from courses.models import Course, Instructor, Lesson, Category
+from courses.models import Course, Instructor, Lesson, Category, User
 
 
 class CategoryForm(forms.ModelForm):
@@ -13,7 +13,7 @@ class CategoryForm(forms.ModelForm):
 
 class InstructorForm(forms.ModelForm):
     username = forms.CharField(label="اسم المستخدم")
-    password = forms.CharField(label="كلمة المرور")
+    password = forms.CharField(label="كلمة المرور", widget=forms.PasswordInput)
 
     class Meta:
         model = Instructor
@@ -34,6 +34,35 @@ class InstructorForm(forms.ModelForm):
             'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'أدخل اسم المستخدم'}),
             'password': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'أدخل كلمة المرور'})
         }
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance and self.instance.pk:
+            self.fields['username'].required = False
+            self.fields['password'].required = False
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        qs = User.objects.filter(username=username)
+        if self.instance and self.instance.user:
+            qs = qs.exclude(pk=self.instance.user.pk)
+        if qs.exists():
+            raise forms.ValidationError("اسم المستخدم موجود بالفعل.")
+        return username
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        qs_instructor = Instructor.objects.filter(email=email)
+        if self.instance:
+            qs_instructor = qs_instructor.exclude(pk=self.instance.pk)
+        if qs_instructor.exists():
+            raise forms.ValidationError("البريد الإلكتروني مستخدم بالفعل لمدرب آخر.")
+        qs_user = User.objects.filter(email=email)
+        if self.instance and self.instance.user:
+            qs_user = qs_user.exclude(pk=self.instance.user.pk)
+        if qs_user.exists():
+            raise forms.ValidationError("البريد الإلكتروني مستخدم بالفعل لحساب مستخدم آخر.")
+        return email
         
 
 class CourseForm(forms.ModelForm):
