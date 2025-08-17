@@ -118,18 +118,19 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <div class="price-display">
                     {% if course.price > 0 %}
-                        {% if course.old_price and course.old_price > course.price %}
-                            <span class="current-price">${{ course.price }}</span>
-                            <span class="original-price text-muted text-decoration-line-through">${{ course.old_price }}</span>
-                            <span class="discount text-success">
-                                {% widthratio course.price course.old_price 100 as percent %}
-                                {{ 100|add:"-"|add:percent }}% OFF
-                            </span>
-                        {% else %}
-                            <span class="current-price">${{ course.price }}</span>
-                        {% endif %}
+                    {% if course.old_price and course.old_price > course.price %}
+                    <span class="current-price fw-bold text-success">${{ course.price }}</span>
+                    <span class="original-price text-muted text-decoration-line-through">${{ course.old_price }}</span>
+                    
+                    {% if discount %}
+                    <span class="discount badge bg-danger">{{ discount }}% OFF</span>
+                    {% endif %}
+                    {% else %}
+                    <span class="current-price fw-bold">${{ course.price }}</span>
+                    {% endif %}
                     {% endif %}
                 </div>
+            </div>
 
                 <div class="enrollment-count text-muted">
                     <i class="bi bi-people"></i>

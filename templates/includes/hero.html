@@ -76,18 +76,24 @@
               {% endif %}
             </div>
 
-            <div class="floating-cards position-absolute top-0 start-50 translate-middle-x d-flex flex-column gap-3">
-              {% for course in courses|slice:":3" %}
-                <div class="course-card card shadow-sm p-2" data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:2 }}00">
-                  <div class="card-icon text-center">
-                    <i class="bi bi-book fs-4"></i>
-                  </div>
-                  <div class="card-content text-center">
-                    <h6>{{ course.title }}</h6>
-                    <span>{{ course.students.count }} {% trans "طالب" %}</span>
-                  </div>
+            <div class="container my-4">
+              <div class="row justify-content-center">
+                {% for course in courses|slice:":5" %}
+                <div class="col-md-4 col-sm-6 mb-4">
+                  <a href="{% url 'courses:course_detail' course.id %}" class="text-decoration-none text-dark">
+                    <div class="course-card card shadow-sm p-3 h-100" data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:2 }}00">
+                      <div class="card-icon text-center mb-2">
+                        <i class="bi bi-book fs-4"></i>
+                      </div>
+                      <div class="card-content text-center">
+                        <h6 class="fw-bold">{{ course.title }}</h6>
+                        <span>{{ course.students.count }} {% trans "طالب" %}</span>
+                      </div>
+                    </div>
+                  </a>
                 </div>
-              {% endfor %}
+                {% endfor %}
+              </div>
             </div>
           </div>
         </div>

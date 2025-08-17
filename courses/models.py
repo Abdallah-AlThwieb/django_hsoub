@@ -83,6 +83,7 @@ class Comment(models.Model):
     
 
 class Testimonial(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="testimonials", null=True, blank=True)
     name = models.CharField(max_length=100)
     role = models.CharField(max_length=100, blank=True)
     rating = models.DecimalField(max_digits=2, decimal_places=1, default=0.0)
@@ -92,3 +93,7 @@ class Testimonial(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.rating}★"
+    
+    @property
+    def rating_int(self):
+        return int(round(self.rating))

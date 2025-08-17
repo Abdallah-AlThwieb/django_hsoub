@@ -24,7 +24,7 @@ def home_page(request):
     student_count = User.objects.annotate(course_count=Count('courses')).filter(course_count__gt=0).count()
     categories = Category.objects.annotate(course_count=Count('courses'))
     courses = Course.objects.filter(is_published=True)
-    latest_posts = Post.objects.order_by('-created_at')[:3]
+    posts = Post.objects.order_by('-created_at')[:3]
     instructors = Instructor.objects.all()[:3]
     testimonials = Testimonial.objects.all()
 
@@ -40,7 +40,7 @@ def home_page(request):
     return render(request, 'courses/home.html', {
         'student_count': student_count,
         'courses': courses,
-        'latest_posts': latest_posts,
+        'posts': posts,
         'categories': categories,
         'categories': categories,
         'instructors': instructors,
@@ -119,9 +119,14 @@ def course_detail(request, course_id):
             course.students.add(request.user)
             return redirect('courses:course_detail', course_id=course.id)
 
+    discount = None
+    if course.old_price and course.old_price > course.price:
+        discount = int(round((1 - (course.price / course.old_price)) * 100))
+
     return render(request, 'courses/course_detail.html', {
         'course': course,
-        'is_enrolled': is_enrolled
+        'is_enrolled': is_enrolled,
+        'discount': discount, 
     })
 
 @login_required
