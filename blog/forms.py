@@ -1,6 +1,6 @@
 from django import forms
 from .models import Post
-from courses.models import Comment
+from blog.models import Comment
 from django.utils.translation import gettext_lazy as _
 
 class PostForm(forms.ModelForm):
@@ -23,9 +23,12 @@ class PostForm(forms.ModelForm):
 
 class PostCommentForm(forms.ModelForm):
     class Meta:
-        model = Comment 
-        fields = ['user', 'content'] 
+        model = Comment
+        fields = ['content']  
         widgets = {
-            'content': forms.Textarea(attrs={'rows':4, 'class':'form-control', 'placeholder':'اكتب تعليقك هنا'}),
-            'user': forms.TextInput(attrs={'class':'form-control', 'placeholder':'الاسم'}),
+            'content': forms.Textarea(attrs={
+                'rows': 4,
+                'class': 'form-control',
+                'placeholder': 'اكتب تعليقك هنا'
+            }),
         }

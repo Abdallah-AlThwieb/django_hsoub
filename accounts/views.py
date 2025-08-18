@@ -12,13 +12,14 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            messages.success(request, _("تم إنشاء الحساب بنجاح، يمكنك تسجيل الدخول الآن."))
+            messages.success(request, "تم إنشاء الحساب بنجاح 🎉، أهلاً بك!")
             return redirect('home_page')  
     else:
         form = CustomUserCreationForm()
     return render(request, 'registration/signup.html', {'form': form})
 
 from django.utils.translation import get_language
+
 
 class CustomLoginView(LoginView):
     def get_success_url(self):
