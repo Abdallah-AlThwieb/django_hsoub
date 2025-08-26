@@ -21,6 +21,7 @@ stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 def home_page(request):
     User = get_user_model()
     query = request.GET.get("q", "").strip()
+
     student_count = User.objects.annotate(course_count=Count('courses')).filter(course_count__gt=0).count()
     categories = Category.objects.annotate(course_count=Count('courses'))
     courses = Course.objects.filter(is_published=True)
@@ -28,20 +29,19 @@ def home_page(request):
     instructors = Instructor.objects.all()[:3]
     testimonials = Testimonial.objects.all()
 
-    paginator = Paginator(courses, 6)  
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
-
     if query:
         courses = courses.filter(
             Q(title__icontains=query) | Q(description__icontains=query)
         )
 
+    paginator = Paginator(courses, 6)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
     return render(request, 'courses/home.html', {
         'student_count': student_count,
-        'courses': courses,
+        'courses': page_obj,   
         'posts': posts,
-        'categories': categories,
         'categories': categories,
         'instructors': instructors,
         'testimonials': testimonials,
@@ -57,10 +57,6 @@ def course_list(request):
     level = request.GET.get('level')
     duration = request.GET.get('duration')
     price_filter = request.GET.get('price')
-
-    paginator = Paginator(courses, 6)  
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
 
     if category:
         courses = courses.filter(category__name=category)
@@ -78,8 +74,8 @@ def course_list(request):
         
     if query:
         courses = courses.filter(
-        Q(title__icontains=query) | Q(description__icontains=query)
-    )
+            Q(title__icontains=query) | Q(description__icontains=query)
+        )
     
     if sort_option == 'newest':
         courses = courses.order_by('-created_at')
@@ -92,18 +88,22 @@ def course_list(request):
     elif sort_option == 'popular':
         courses = courses.annotate(student_count=Count('students')).order_by('-student_count')
 
+    paginator = Paginator(courses, 6)  
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
     categories = Category.objects.all()
     levels = Course.objects.exclude(level__isnull=True).exclude(level__exact="").values_list('level', flat=True).distinct()
     durations = Course.objects.exclude(duration__isnull=True).exclude(duration__exact="").values_list('duration', flat=True).distinct()
 
     return render(request, 'courses/course_list.html', {
-        'courses': courses,
+        'courses': page_obj,  
         'categories': categories,
         'levels': levels,
         'durations': durations,
         'sort_option': sort_option,
         'page_obj': page_obj,
-        })
+    })
 
 def course_detail(request, course_id):
     course = get_object_or_404(Course, id=course_id)
